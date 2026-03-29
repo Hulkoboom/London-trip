@@ -164,6 +164,17 @@
           "category": "🏛️ Sehenswürdigkeit",
           "lat": 51.5004439,
           "lng": -0.1265398
+        },
+        {
+          "id": "mnbn55igfxv",
+          "name": "Big Ben",
+          "address": "Big Ben, Bridge Street, Westminster",
+          "from": "13:30",
+          "to": "14:30",
+          "note": "",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.5007042,
+          "lng": -0.1245721
         }
       ]
     }
