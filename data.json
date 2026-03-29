@@ -4,14 +4,27 @@
     {
       "id": "mnbkdh0bbqg",
       "name": "Alex",
-      "food": "🥗 Vegetarisch",
+      "food": "ð¥ Vegetarisch",
+      "interests": [
+        "ðº Pub-Hopping",
+        "ðï¸ Shopping",
+        "ð¸ Fotos",
+        "ð½ï¸ Food"
+      ],
+      "color": "#2d7a4a"
+    },
+    {
+      "id": "mnbkil6c0ql",
+      "name": "Steffiii",
+      "food": "🥩 Fleisch",
       "interests": [
         "🍺 Pub-Hopping",
         "🛍️ Shopping",
+        "🌿 Parks",
         "📸 Fotos",
         "🍽️ Food"
       ],
-      "color": "#2d7a4a"
+      "color": "#C8102E"
     }
   ]
 }
