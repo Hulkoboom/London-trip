@@ -68,6 +68,17 @@
           "category": "🍽️ Restaurant",
           "lat": 51.5055815,
           "lng": -0.0901984
+        },
+        {
+          "id": "mnbmzqn8ext",
+          "name": "Tower of London",
+          "address": "Tower of London, Tower Hill, East Smithfield",
+          "from": "11:00",
+          "to": "13:30",
+          "note": "",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.508217,
+          "lng": -0.0761879
         }
       ]
     }
