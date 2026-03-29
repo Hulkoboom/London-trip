@@ -38,6 +38,17 @@
           "category": "🍽️ Restaurant",
           "lat": 51.51477,
           "lng": -0.1369587
+        },
+        {
+          "id": "mnbmwmaswys",
+          "name": "Erster Pub: The Harp",
+          "address": "The Harp, 47, Chandos Place",
+          "from": "21:00",
+          "to": "23:00",
+          "note": "",
+          "category": "🍺 Pub",
+          "lat": 51.5097191,
+          "lng": -0.1259555
         }
       ]
     }
