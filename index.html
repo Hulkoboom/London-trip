@@ -558,7 +558,7 @@ async function pushData(){
     const body = { message:'Trip update', content, ...(fileSha?{sha:fileSha}:{}) };
     const r = await fetch(API, {
       method:'PUT',
-      headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json`, 'Content-Type':'application/json' },
+      headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' },
       body: JSON.stringify(body)
     });
     if(!r.ok) throw new Error(r.status);
