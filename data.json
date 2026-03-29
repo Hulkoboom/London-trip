@@ -1,28 +1,81 @@
 {
-  "days": [],
+  "days": [
+    {
+      "id": "day-mon",
+      "title": "Montag – Letzter Bissen & Heimflug",
+      "date": "",
+      "note": "Notting Hill · Govinda's · Heathrow",
+      "places": [
+        {
+          "id": "mon-1",
+          "name": "Hotel Check-out",
+          "address": "Leicester Square, London WC2H",
+          "from": "09:00",
+          "to": "10:00",
+          "note": "Koffer bis 18 Uhr lassen möglich.",
+          "category": "🏨 Hotel",
+          "lat": 51.5113,
+          "lng": -0.1282
+        },
+        {
+          "id": "mon-2",
+          "name": "Portobello Road & Notting Hill",
+          "address": "Portobello Rd, London W11",
+          "from": "10:00",
+          "to": "12:30",
+          "note": "Vintage, bunte Häuser.",
+          "category": "🛍️ Shopping",
+          "lat": 51.5172,
+          "lng": -0.2042
+        },
+        {
+          "id": "mon-3",
+          "name": "Mittagessen: Govinda's Soho",
+          "address": "9 Soho St, London W1D 3DL",
+          "from": "13:00",
+          "to": "14:30",
+          "note": "Vegane Thali ca. £11. ⭐ 4.8",
+          "category": "🍽️ Restaurant",
+          "lat": 51.5155,
+          "lng": -0.1318
+        },
+        {
+          "id": "mon-4",
+          "name": "Heathrow Abflug",
+          "address": "Heathrow Airport, London TW6",
+          "from": "15:00",
+          "to": "",
+          "note": "2,5 Stunden vor Abflug!",
+          "category": "🚇 Transport",
+          "lat": 51.47,
+          "lng": -0.4543
+        }
+      ]
+    }
+  ],
   "profiles": [
     {
       "id": "mnbkdh0bbqg",
       "name": "Alex",
-      "food": "Ã°ÂÂ¥Â Vegetarisch",
+      "food": "ÃÂ°ÃÂÃÂ¥ÃÂ Vegetarisch",
       "interests": [
-        "Ã°ÂÂÂº Pub-Hopping",
-        "Ã°ÂÂÂÃ¯Â¸Â Shopping",
-        "Ã°ÂÂÂ¸ Fotos",
-        "Ã°ÂÂÂ½Ã¯Â¸Â Food"
+        "ÃÂ°ÃÂÃÂÃÂº Pub-Hopping",
+        "ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Shopping",
+        "ÃÂ°ÃÂÃÂÃÂ¸ Fotos",
+        "ÃÂ°ÃÂÃÂÃÂ½ÃÂ¯ÃÂ¸ÃÂ Food"
       ],
       "color": "#2d7a4a"
     },
     {
       "id": "mnbkil6c0ql",
       "name": "Steffiii",
-      "food": "Ã°ÂÂ¥Â© Fleisch",
+      "food": "ÃÂ°ÃÂÃÂ¥ÃÂ© Fleisch",
       "interests": [
-        "Ã°ÂÂÂº Pub-Hopping",
-        "Ã°ÂÂÂÃ¯Â¸Â Shopping",
-        "Ã°ÂÂÂ¿ Parks",
-        "Ã°ÂÂÂ¸ Fotos",
-        "Ã°ÂÂÂ½Ã¯Â¸Â Food"
+        "ÃÂ°ÃÂÃÂÃÂº Pub-Hopping",
+        "ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Shopping",
+        "ÃÂ°ÃÂÃÂÃÂ¿ Parks",
+        "ÃÂ°ÃÂÃÂÃÂ¸ Fotos",
+        "ÃÂ°ÃÂÃÂÃÂ½ÃÂ¯ÃÂ¸ÃÂ Food"
       ],
       "color": "#C8102E"
     }
