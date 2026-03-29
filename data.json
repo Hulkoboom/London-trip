@@ -1,5 +1,13 @@
 {
-  "days": [],
+  "days": [
+    {
+      "id": "mnbkj2bvnsf",
+      "title": "Erster Tag",
+      "date": "",
+      "note": "",
+      "places": []
+    }
+  ],
   "profiles": [
     {
       "id": "mnbkdh0bbqg",
