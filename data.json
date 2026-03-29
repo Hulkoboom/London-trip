@@ -57,7 +57,19 @@
       "title": "Tag 2",
       "date": "2026-12-02",
       "note": "",
-      "places": []
+      "places": [
+        {
+          "id": "mnbmzbbj5gi",
+          "name": "Borough Market",
+          "address": "Borough Market, Green Dragon Court, Borough Market",
+          "from": "09:00",
+          "to": "11:00",
+          "note": "",
+          "category": "🍽️ Restaurant",
+          "lat": 51.5055815,
+          "lng": -0.0901984
+        }
+      ]
     }
   ],
   "profiles": [
