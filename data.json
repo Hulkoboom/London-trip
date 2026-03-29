@@ -27,6 +27,17 @@
           "category": "🛍️ Shopping",
           "lat": 51.5117363,
           "lng": -0.1226769
+        },
+        {
+          "id": "mnbmw55vrir",
+          "name": "Bubala",
+          "address": "Bubala, 15, Poland Street",
+          "from": "19:00",
+          "to": "21:00",
+          "note": "",
+          "category": "🍽️ Restaurant",
+          "lat": 51.51477,
+          "lng": -0.1369587
         }
       ]
     }
