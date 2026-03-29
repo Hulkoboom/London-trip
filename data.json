@@ -79,6 +79,17 @@
           "category": "🏛️ Sehenswürdigkeit",
           "lat": 51.508217,
           "lng": -0.0761879
+        },
+        {
+          "id": "mnbn0vvvhn9",
+          "name": "Tower Bridge",
+          "address": "Tower Bridge, Butler's Wharf, Bermondsey Village",
+          "from": "13:30",
+          "to": "14:30",
+          "note": "Tower Bridge & Southbank",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.5055166,
+          "lng": -0.0753662
         }
       ]
     }
