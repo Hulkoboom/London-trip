@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇬🇧 London Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ── WICHTIG: Diese drei Werte nach dem Setup anpassen ── */
+/* Siehe Anleitung unten */
+
+:root {
+  --red: #C8102E;
+  --navy: #012169;
+  --navy2: #0a2d80;
+  --cream: #F7F2EA;
+  --cream2: #EDE5D8;
+  --gold: #C9A84C;
+  --gold2: #e8c96a;
+  --white: #fff;
+  --text: #1a1a2a;
+  --muted: #7a7a90;
+  --border: #DDD5C5;
+  --r: 12px;
+  --r-sm: 8px;
+  --sh: 0 4px 24px rgba(1,33,105,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* ── LOGIN SCREEN ─────────────────────────────────────── */
+#login-screen {
+  position:fixed;inset:0;z-index:1000;
+  background: linear-gradient(135deg, var(--navy) 0%, #021f5c 50%, #0a0a1a 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+#login-screen.hidden{display:none}
+
+.login-box {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;
+  padding:44px 40px;
+  width:100%;max-width:400px;
+  text-align:center;
+  backdrop-filter:blur(10px);
+  box-shadow:0 24px 80px rgba(0,0,0,0.5);
+}
+.login-flag{font-size:3rem;margin-bottom:12px;display:block}
+.login-title{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;color:white;
+  margin-bottom:6px;line-height:1.2;
+}
+.login-sub{color:rgba(255,255,255,0.45);font-size:0.88rem;margin-bottom:36px}
+.login-label{
+  display:block;text-align:left;
+  font-size:0.75rem;font-weight:600;
+  color:rgba(255,255,255,0.5);
+  text-transform:uppercase;letter-spacing:0.8px;
+  margin-bottom:8px;
+}
+.login-input-wrap{position:relative;margin-bottom:16px}
+#pin-input {
+  width:100%;padding:14px 48px 14px 18px;
+  background:rgba(255,255,255,0.08);
+  border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:10px;
+  font-family:'Outfit',sans-serif;font-size:1.1rem;
+  color:white;letter-spacing:3px;outline:none;
+  transition:border-color 0.2s;
+  text-align:center;
+}
+#pin-input::placeholder{letter-spacing:1px;color:rgba(255,255,255,0.25);font-size:0.9rem}
+#pin-input:focus{border-color:var(--gold)}
+#pin-input.error{border-color:var(--red);animation:shake 0.4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+.btn-login {
+  width:100%;padding:14px;
+  background:var(--gold);color:var(--navy);
+  border:none;border-radius:10px;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem;
+  cursor:pointer;transition:all 0.2s;margin-top:4px;
+}
+.btn-login:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-login:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.login-error{color:#ff8888;font-size:0.82rem;margin-top:10px;min-height:20px}
+.login-hint{color:rgba(255,255,255,0.2);font-size:0.75rem;margin-top:28px}
+
+.login-deco{
+  position:absolute;border-radius:50%;
+  background:rgba(200,16,46,0.15);
+  filter:blur(60px);pointer-events:none;
+}
+
+/* ── HEADER ───────────────────────────────────────────── */
+header{
+  background:var(--navy);
+  padding:0 28px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 16px rgba(0,0,0,0.25);
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;color:white;
+  display:flex;align-items:center;gap:10px;
+}
+.header-right{display:flex;align-items:center;gap:10px}
+.sync-status{
+  font-size:0.75rem;color:rgba(255,255,255,0.4);
+  display:flex;align-items:center;gap:5px;
+}
+.sync-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#888;transition:background 0.3s;
+}
+.sync-dot.ok{background:#4caf50}
+.sync-dot.saving{background:var(--gold);animation:pulse 1s infinite}
+.sync-dot.err{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.btn-logout{
+  background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.6);
+  padding:6px 12px;border-radius:6px;font-size:0.75rem;
+  cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+}
+.btn-logout:hover{background:rgba(255,255,255,0.2);color:white}
+
+/* ── STRIPE ───────────────────────────────────────────── */
+.stripe{height:4px;background:linear-gradient(90deg,var(--red) 0 33%,white 33% 66%,var(--navy) 66%)}
+
+/* ── TABS ─────────────────────────────────────────────── */
+.tabs{
+  background:var(--navy);padding:0 28px;
+  display:flex;gap:2px;
+  border-top:1px solid rgba(255,255,255,0.07);
+}
+.tab{
+  padding:11px 20px;color:rgba(255,255,255,0.45);
+  font-size:0.82rem;font-weight:500;cursor:pointer;
+  border-bottom:3px solid transparent;transition:all 0.2s;
+  user-select:none;display:flex;align-items:center;gap:6px;
+}
+.tab:hover{color:rgba(255,255,255,0.85)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── MAIN ─────────────────────────────────────────────── */
+main{max-width:980px;margin:0 auto;padding:28px 24px 60px}
+.view{display:none}
+.view.active{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── PAGE HEADER ──────────────────────────────────────── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.pt{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);line-height:1.2}
+.pt em{color:var(--red);font-style:normal}
+
+/* ── BUTTONS ──────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:0.87rem;font-weight:500;cursor:pointer;border:none;transition:all 0.2s}
+.btn-red{background:var(--red);color:white}.btn-red:hover{background:#a50e26}
+.btn-navy{background:var(--navy);color:white}.btn-navy:hover{background:var(--navy2)}
+.btn-ghost{background:none;color:var(--muted)}.btn-ghost:hover{background:var(--cream2);color:var(--text)}
+.btn-sm{padding:6px 12px;font-size:0.78rem}
+.btn-icon{background:none;border:none;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:background 0.15s;color:var(--muted)}
+.btn-icon:hover{background:var(--cream2)}
+.btn-icon.del:hover{background:#ffeaea;color:var(--red)}
+
+/* ── DAY CARDS ────────────────────────────────────────── */
+#days-list{display:flex;flex-direction:column;gap:18px}
+.day-card{background:white;border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);overflow:hidden;transition:box-shadow 0.2s}
+.day-card:hover{box-shadow:0 8px 40px rgba(1,33,105,0.18)}
+.day-card.dragging{opacity:0.4}
+.day-card.drag-over{border:2px dashed var(--gold)}
+
+.day-head{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:10px}
+.drag-handle{color:rgba(255,255,255,0.25);cursor:grab;font-size:1.1rem;padding:0 2px;user-select:none}
+.drag-handle:active{cursor:grabbing}
+.day-num{background:var(--gold);color:var(--navy);font-weight:700;font-size:0.72rem;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.day-title-wrap{flex:1;min-width:0}
+.day-title-txt{font-family:'Playfair Display',serif;color:white;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day-date-chip{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-size:0.7rem;padding:2px 9px;border-radius:20px;margin-top:3px;display:inline-block}
+.day-btns{display:flex;gap:4px;margin-left:auto}
+.dh-btn{background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.75);padding:5px 11px;border-radius:5px;font-size:0.73rem;cursor:pointer;transition:background 0.2s;font-family:'Outfit',sans-serif}
+.dh-btn:hover{background:rgba(255,255,255,0.25)}
+.dh-btn.del{color:#ff9999}.dh-btn.del:hover{background:rgba(200,16,46,0.35)}
+
+.day-body{padding:16px 18px}
+.day-note{font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:12px;border-left:3px solid var(--gold)}
+
+/* ── PLACES ───────────────────────────────────────────── */
+.places{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.place-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--cream);border-radius:var(--r-sm);border:1px solid var(--border);transition:box-shadow 0.15s}
+.place-row:hover{box-shadow:0 2px 10px rgba(1,33,105,0.08)}
+.place-icon{width:36px;height:36px;border-radius:7px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.place-info{flex:1;min-width:0}
+.place-name{font-weight:600;font-size:0.88rem;color:var(--navy)}
+.place-meta{font-size:0.73rem;color:var(--muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:7px}
+.time-badge{background:var(--navy);color:white;padding:1px 8px;border-radius:20px;font-size:0.68rem}
+.place-acts{display:flex;gap:2px}
+
+.add-place-btn{border:2px dashed var(--border);background:transparent;color:var(--muted);padding:9px;border-radius:var(--r-sm);cursor:pointer;text-align:center;font-size:0.81rem;width:100%;font-family:'Outfit',sans-serif;transition:all 0.2s}
+.add-place-btn:hover{border-color:var(--red);color:var(--red);background:#fff8f8}
+
+/* ── DAY MAP ──────────────────────────────────────────── */
+.map-toggle{background:none;border:1.5px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-size:0.78rem;cursor:pointer;margin-top:10px;font-family:'Outfit',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.map-toggle:hover{border-color:var(--navy);color:var(--navy)}
+.day-map-wrap{margin-top:12px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border);display:none}
+.day-map-wrap.open{display:block}
+.day-map{height:260px;width:100%}
+
+/* ── OVERVIEW MAP ─────────────────────────────────────── */
+#ov-map{height:500px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
+.map-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.leg-item{background:white;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:0.77rem;display:flex;align-items:center;gap:6px}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ── PROFILES ─────────────────────────────────────────── */
+.prof-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.prof-card{background:white;border-radius:var(--r);padding:22px;text-align:center;box-shadow:var(--sh);border:1px solid var(--border)}
+.prof-avatar{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:white}
+.prof-name{font-family:'Playfair Display',serif;font-size:1rem;color:var(--navy);margin-bottom:9px}
+.prof-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.prof-tag{background:var(--cream);border:1px solid var(--border);padding:3px 9px;border-radius:20px;font-size:0.71rem}
+.add-prof-card{background:white;border-radius:var(--r);border:2px dashed var(--border);min-height:175px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--muted);font-size:0.87rem;cursor:pointer;transition:all 0.2s}
+.add-prof-card:hover{border-color:var(--red);color:var(--red)}
+
+/* ── EMPTY ────────────────────────────────────────────── */
+.empty{text-align:center;padding:52px 20px;color:var(--muted)}
+.empty .ic{font-size:3rem;margin-bottom:14px}
+
+/* ── MODALS ───────────────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:white;border-radius:16px;padding:28px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:pop 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes pop{from{opacity:0;transform:scale(0.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal h2{font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;font-size:1.2rem}
+.mf{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:0.74rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:0.9rem;color:var(--text);background:white;outline:none;transition:border-color 0.2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--navy)}
+.fg textarea{resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.79rem;cursor:pointer;transition:all 0.2s;background:white;font-family:'Outfit',sans-serif;user-select:none}
+.chip:hover{border-color:var(--navy)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:white}
+
+/* ── TOAST ────────────────────────────────────────────── */
+#toast{position:fixed;bottom:24px;right:24px;background:#1a2a4a;color:white;padding:11px 18px;border-radius:8px;font-size:0.83rem;z-index:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:600px){
+  main{padding:16px 14px 60px}
+  header,.tabs{padding:0 14px}
+  .row2{grid-template-columns:1fr}
+  .login-box{padding:32px 22px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN SCREEN ══════════════════════════ -->
+<div id="login-screen">
+  <div class="login-deco" style="width:300px;height:300px;top:-100px;left:-100px"></div>
+  <div class="login-deco" style="width:200px;height:200px;bottom:-50px;right:-50px;background:rgba(1,33,105,0.3)"></div>
+  <div class="login-box">
+    <span class="login-flag">🇬🇧</span>
+    <div class="login-title">London Trip</div>
+    <div class="login-sub">Gebt euren PIN ein um loszulegen</div>
+    <label class="login-label">PIN eingeben</label>
+    <div class="login-input-wrap">
+      <input id="pin-input" type="password" placeholder="Euer gemeinsamer PIN" maxlength="50"
+             onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-login" onclick="doLogin()" id="btn-login">Einloggen →</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-hint">Nur für die Reisegruppe 🔒</div>
+  </div>
+</div>
+
+<!-- ══════════════ APP ════════════════════════════════════ -->
+<header>
+  <div class="logo">🇬🇧 London Trip</div>
+  <div class="header-right">
+    <div class="sync-status">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-text">–</span>
+    </div>
+    <button class="btn-logout" onclick="logout()">Abmelden</button>
+  </div>
+</header>
+<div class="stripe"></div>
+<div class="tabs">
+  <div class="tab active" data-tab="days" onclick="switchTab('days')">📅 Tage</div>
+  <div class="tab" data-tab="map" onclick="switchTab('map')">🗺️ Karte</div>
+  <div class="tab" data-tab="profiles" onclick="switchTab('profiles')">👥 Crew</div>
+</div>
+
+<main>
+  <div class="view active" id="view-days">
+    <div class="ph">
+      <div class="pt">Reiseplan <em>London</em></div>
+      <button class="btn btn-red" onclick="openDayModal()">+ Tag hinzufügen</button>
+    </div>
+    <div id="days-list"></div>
+  </div>
+
+  <div class="view" id="view-map">
+    <div class="ph"><div class="pt">Alle Orte <em>auf einen Blick</em></div></div>
+    <div id="ov-map"></div>
+    <div class="map-legend" id="map-legend"></div>
+  </div>
+
+  <div class="view" id="view-profiles">
+    <div class="ph">
+      <div class="pt">Unsere <em>Crew</em></div>
+      <button class="btn btn-red" onclick="openProfModal()">+ Profil erstellen</button>
+    </div>
+    <div class="prof-grid" id="prof-grid"></div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<!-- ══════════════ MODALS ═════════════════════════════════ -->
+
+<div class="overlay" id="m-day">
+  <div class="modal">
+    <h2 id="m-day-h">Tag hinzufügen</h2>
+    <div class="fg"><label>Titel</label><input id="f-dt" type="text" placeholder="z.B. Ankunft & Westminster"></div>
+    <div class="fg"><label>Datum</label><input id="f-dd" type="date"></div>
+    <div class="fg"><label>Notiz (optional)</label><textarea id="f-dn" rows="2" placeholder="Kurze Info zum Tag..."></textarea></div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal('m-day')">Abbrechen</button>
+      <button class="btn btn-navy" onclick="saveDay()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="m-place">
+  <div class="modal">
+    <h2 id="m-place-h">Aktivität hinzufügen</h2>
+    <div class="fg"><label>Name</label><input id="f-pn" type="text" placeholder="z.B. Tower of London"></div>
+    <div class="fg"><label>Adresse</label><input id="f-pa" type="text" placeholder="z.B. Tower Hill, EC3N 4AB"></div>
+    <div class="row2">
+      <div class="fg"><label>Von</label><input id="f-pf" type="time"></div>
+      <div class="fg"><label>Bis</label><input id="f-pt" type="time"></div>
+    </div>
+    <div class="fg">
+      <label>Kategorie</label>
+      <div class="chips" id="chips-cat">
+        <div class="chip on" data-v="🏛️ Sehenswürdigkeit">🏛️ Sehenswürdigkeit</div>
+        <div class="chip" data-v="🍽️ Restaurant">🍽️ Restaurant</div>
+        <div class="chip" data-v="🍺 Pub">🍺 Pub</div>
+        <div class="chip" data-v="🛍️ Shopping">🛍️ Shopping</div>
+        <div class="chip" data-v="🌿 Park">🌿 Park</div>
+        <div class="chip" data-v="🎭 Kultur">🎭 Kultur</div>
+        <div class="chip" data-v="🏨 Hotel">🏨 Hotel</div>
+        <div class="chip" data-v="🚇 Transport">🚇 Transport</div>
+      </div>
+    </div>
+    <div class="fg"><label>Notiz (optional)</label><input id="f-pnote" type="text" placeholder="Tickets buchen, Reservierung..."></div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal('m-place')">Abbrechen</button>
+      <button class="btn btn-navy" id="btn-sp" onclick="savePlace()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="m-prof">
+  <div class="modal">
+    <h2>Profil erstellen</h2>
+    <div class="fg"><label>Name</label><input id="f-profn" type="text" placeholder="Dein Name"></div>
+    <div class="fg">
+      <label>Essen</label>
+      <div class="chips" id="chips-food">
+        <div class="chip on" data-v="🥩 Fleisch">🥩 Fleisch</div>
+        <div class="chip" data-v="🥗 Vegetarisch">🥗 Vegetarisch</div>
+        <div class="chip" data-v="🌱 Vegan">🌱 Vegan</div>
+        <div class="chip" data-v="🐟 Pescetarisch">🐟 Pescetarisch</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Interessen</label>
+      <div class="chips" id="chips-int">
+        <div class="chip" data-v="🏛️ Museen">🏛️ Museen</div>
+        <div class="chip" data-v="🍺 Pub-Hopping">🍺 Pub-Hopping</div>
+        <div class="chip" data-v="🛍️ Shopping">🛍️ Shopping</div>
+        <div class="chip" data-v="🌿 Parks">🌿 Parks</div>
+        <div class="chip" data-v="🎭 Theater">🎭 Theater</div>
+        <div class="chip" data-v="📸 Fotos">📸 Fotos</div>
+        <div class="chip" data-v="🍽️ Food">🍽️ Food</div>
+        <div class="chip" data-v="🎵 Konzerte">🎵 Konzerte</div>
+        <div class="chip" data-v="⚽ Sport">⚽ Sport</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Farbe</label>
+      <div class="chips" id="chips-col">
+        <div class="chip on" data-v="#C8102E" style="background:#C8102E;color:white;border-color:#C8102E">Rot</div>
+        <div class="chip" data-v="#012169" style="background:#012169;color:white;border-color:#012169">Navy</div>
+        <div class="chip" data-v="#C9A84C" style="background:#C9A84C;color:white;border-color:#C9A84C">Gold</div>
+        <div class="chip" data-v="#2d7a4a" style="background:#2d7a4a;color:white;border-color:#2d7a4a">Grün</div>
+        <div class="chip" data-v="#7b3fa0" style="background:#7b3fa0;color:white;border-color:#7b3fa0">Lila</div>
+        <div class="chip" data-v="#c47c00" style="background:#c47c00;color:white;border-color:#c47c00">Orange</div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal('m-prof')">Abbrechen</button>
+      <button class="btn btn-navy" onclick="saveProf()">Erstellen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SCRIPT ═════════════════════════════════ -->
+<script>
+// ╔══════════════════════════════════════════════════════╗
+// ║  KONFIGURATION — hier nach dem Setup anpassen!       ║
+// ╚══════════════════════════════════════════════════════╝
+const CONFIG = {
+  GITHUB_USER:  'DEIN_USERNAME',      // z.B. 'maxmustermann'
+  GITHUB_REPO:  'london-trip',        // Name deines Repos
+  DATA_FILE:    'data.json',          // Dateiname für die Daten
+  PIN:          'LONDON2025'          // Euer gemeinsamer PIN
+};
+// ════════════════════════════════════════════════════════
+
+let token = null;  // GitHub Token — wird nach Login gesetzt
+let state = { days: [], profiles: [] };
+let fileSha = null;
+let saveTimer = null;
+const ovMapState = { init: false, map: null };
+const dayMaps = {};
+
+// ── CHIPS ────────────────────────────────────────────────
+function initChips(id, multi=false){
+  document.querySelectorAll(`#${id} .chip`).forEach(c=>{
+    c.addEventListener('click',()=>{
+      if(!multi) document.querySelectorAll(`#${id} .chip`).forEach(x=>x.classList.remove('on'));
+      c.classList.toggle('on');
+    });
+  });
+}
+function chipVal(id){ const el=document.querySelector(`#${id} .chip.on`); return el?el.dataset.v:''; }
+function chipVals(id){ return [...document.querySelectorAll(`#${id} .chip.on`)].map(c=>c.dataset.v); }
+function setChip(id,val){ document.querySelectorAll(`#${id} .chip`).forEach(c=>c.classList.toggle('on',c.dataset.v===val)); }
+function clearChips(id){ document.querySelectorAll(`#${id} .chip`).forEach(c=>c.classList.remove('on')); }
+initChips('chips-cat',false); initChips('chips-food',false);
+initChips('chips-int',true);  initChips('chips-col',false);
+
+// ── LOGIN ────────────────────────────────────────────────
+function doLogin(){
+  const pin = document.getElementById('pin-input').value.trim();
+  const err = document.getElementById('login-error');
+  const btn = document.getElementById('btn-login');
+  if(!pin){ err.textContent='Bitte PIN eingeben'; return; }
+  if(pin !== CONFIG.PIN){
+    err.textContent='Falscher PIN — versuch\'s nochmal!';
+    document.getElementById('pin-input').classList.add('error');
+    setTimeout(()=>document.getElementById('pin-input').classList.remove('error'),500);
+    return;
+  }
+  // PIN korrekt — Token ist der PIN selbst als Hinweis,
+  // echter GitHub Token wird im localStorage gespeichert (beim ersten Mal)
+  const savedToken = localStorage.getItem('gh_token_london');
+  if(savedToken){
+    token = savedToken;
+    loginSuccess();
+  } else {
+    // Ersten Login: Token abfragen
+    err.style.color='#88ccff';
+    err.textContent='';
+    btn.disabled = true;
+    // Token-Eingabe einblenden
+    showTokenInput();
+  }
+}
+
+function showTokenInput(){
+  const box = document.querySelector('.login-box');
+  box.innerHTML = `
+    <span class="login-flag">🔑</span>
+    <div class="login-title" style="font-size:1.4rem">Einmalig: GitHub Token</div>
+    <div class="login-sub">Nur beim ersten Mal nötig — danach gespeichert</div>
+    <label class="login-label">GitHub Personal Access Token</label>
+    <div class="login-input-wrap">
+      <input id="token-input" type="password" placeholder="ghp_xxxxxxxxxxxx" style="letter-spacing:1px;text-align:left"
+             onkeydown="if(event.key==='Enter')submitToken()">
+    </div>
+    <button class="btn-login" onclick="submitToken()">Speichern & loslegen →</button>
+    <div class="login-error" id="token-error"></div>
+    <div class="login-hint" style="margin-top:16px;line-height:1.6">
+      Token erstellen:<br>
+      GitHub → Settings → Developer settings<br>→ Personal access tokens → Tokens (classic)<br>
+      → Generate new token → "repo" anhaken
+    </div>`;
+}
+
+function submitToken(){
+  const t = document.getElementById('token-input').value.trim();
+  if(!t || !t.startsWith('ghp_')){ document.getElementById('token-error').textContent='Token ungültig (muss mit ghp_ beginnen)'; return; }
+  token = t;
+  localStorage.setItem('gh_token_london', t);
+  loginSuccess();
+}
+
+async function loginSuccess(){
+  document.getElementById('login-screen').classList.add('hidden');
+  setSyncStatus('saving','Verbinde...');
+  await loadData();
+  renderDays(); renderProfiles();
+  toast('👋 Willkommen! Alle Änderungen werden automatisch gespeichert.');
+}
+
+function logout(){
+  token = null;
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('pin-input').value='';
+  document.getElementById('login-error').textContent='';
+}
+
+// ── GITHUB API ────────────────────────────────────────────
+const API = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.DATA_FILE}`;
+
+async function loadData(){
+  try {
+    const r = await fetch(API, { headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json' }});
+    if(r.status === 404){
+      // Datei existiert noch nicht — leeren Stand anlegen
+      await pushData();
+      setSyncStatus('ok','Bereit');
+      return;
+    }
+    if(!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    fileSha = d.sha;
+    state = JSON.parse(atob(d.content.replace(/\n/g,'')));
+    setSyncStatus('ok','Geladen');
+  } catch(e){
+    setSyncStatus('err','Fehler beim Laden');
+    toast('⚠️ Verbindung zu GitHub fehlgeschlagen. Token prüfen!');
+  }
+}
+
+async function pushData(){
+  try {
+    setSyncStatus('saving','Speichert...');
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+    const body = { message:'Trip update', content, ...(fileSha?{sha:fileSha}:{}) };
+    const r = await fetch(API, {
+      method:'PUT',
+      headers:{ Authorization:`token ${token}`, Accept:'application/vnd.github.v3+json`, 'Content-Type':'application/json' },
+      body: JSON.stringify(body)
+    });
+    if(!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    fileSha = d.content.sha;
+    setSyncStatus('ok','Gespeichert ✓');
+    setTimeout(()=>setSyncStatus('ok','Bereit'),2500);
+  } catch(e){
+    setSyncStatus('err','Speichern fehlgeschlagen');
+    toast('⚠️ Speichern fehlgeschlagen — Verbindung prüfen!');
+  }
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  setSyncStatus('saving','Speichert...');
+  saveTimer = setTimeout(pushData, 1200);
+}
+
+function setSyncStatus(state, text){
+  const dot = document.getElementById('sync-dot');
+  const txt = document.getElementById('sync-text');
+  dot.className = 'sync-dot ' + state;
+  txt.textContent = text;
+}
+
+// ── TABS ──────────────────────────────────────────────────
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+tab).classList.add('active');
+  if(tab==='map') initOvMap();
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(o=>{ o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }); });
+
+// ── TOAST ─────────────────────────────────────────────────
+function toast(msg,dur=3200){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),dur);
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+function fmtDate(s){
+  if(!s) return '';
+  const [y,m,d]=s.split('-');
+  const mo=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  return `${+d}. ${mo[+m-1]} ${y}`;
+}
+function initials(n){ return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+const COLORS=['#C8102E','#012169','#C9A84C','#2d7a4a','#7b3fa0','#c47c00','#1a6a8a'];
+const CAT_EM={'🏛️ Sehenswürdigkeit':'🏛️','🍽️ Restaurant':'🍽️','🍺 Pub':'🍺','🛍️ Shopping':'🛍️','🌿 Park':'🌿','🎭 Kultur':'🎭','🏨 Hotel':'🏨','🚇 Transport':'🚇'};
+function ce(cat){ return CAT_EM[cat]||'📍'; }
+
+// ── DAYS ──────────────────────────────────────────────────
+let eDayId=null;
+function openDayModal(id=null){
+  eDayId=id;
+  document.getElementById('m-day-h').textContent=id?'Tag bearbeiten':'Tag hinzufügen';
+  if(id){ const d=state.days.find(x=>x.id===id); document.getElementById('f-dt').value=d.title; document.getElementById('f-dd').value=d.date||''; document.getElementById('f-dn').value=d.note||''; }
+  else { document.getElementById('f-dt').value=''; document.getElementById('f-dd').value=''; document.getElementById('f-dn').value=''; }
+  openModal('m-day'); setTimeout(()=>document.getElementById('f-dt').focus(),100);
+}
+function saveDay(){
+  const title=document.getElementById('f-dt').value.trim();
+  if(!title){ toast('⚠️ Titel eingeben'); return; }
+  if(eDayId){ const d=state.days.find(x=>x.id===eDayId); d.title=title; d.date=document.getElementById('f-dd').value; d.note=document.getElementById('f-dn').value.trim(); }
+  else state.days.push({id:uid(),title,date:document.getElementById('f-dd').value,note:document.getElementById('f-dn').value.trim(),places:[]});
+  closeModal('m-day'); renderDays(); scheduleSave(); toast(eDayId?'✏️ Tag aktualisiert':'📅 Tag hinzugefügt');
+}
+function deleteDay(id){
+  if(!confirm('Tag wirklich löschen?')) return;
+  state.days=state.days.filter(d=>d.id!==id); renderDays(); scheduleSave(); toast('🗑️ Tag gelöscht');
+}
+
+// ── PLACES ────────────────────────────────────────────────
+let ePlaceId=null, curDay=null;
+function openPlaceModal(dayId,placeId=null){
+  curDay=dayId; ePlaceId=placeId;
+  document.getElementById('m-place-h').textContent=placeId?'Aktivität bearbeiten':'Aktivität hinzufügen';
+  if(placeId){ const p=state.days.find(d=>d.id===dayId).places.find(p=>p.id===placeId); document.getElementById('f-pn').value=p.name; document.getElementById('f-pa').value=p.address||''; document.getElementById('f-pf').value=p.from||''; document.getElementById('f-pt').value=p.to||''; document.getElementById('f-pnote').value=p.note||''; setChip('chips-cat',p.category||'🏛️ Sehenswürdigkeit'); }
+  else { document.getElementById('f-pn').value=''; document.getElementById('f-pa').value=''; document.getElementById('f-pf').value=''; document.getElementById('f-pt').value=''; document.getElementById('f-pnote').value=''; setChip('chips-cat','🏛️ Sehenswürdigkeit'); }
+  openModal('m-place'); setTimeout(()=>document.getElementById('f-pn').focus(),100);
+}
+async function savePlace(){
+  const name=document.getElementById('f-pn').value.trim();
+  if(!name){ toast('⚠️ Name eingeben'); return; }
+  const address=document.getElementById('f-pa').value.trim();
+  const btn=document.getElementById('btn-sp'); btn.textContent='⏳...'; btn.disabled=true;
+  let lat=51.5074,lng=-0.1278;
+  if(address){ try{ const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address+', London, UK')}&format=json&limit=1`); const d=await r.json(); if(d[0]){lat=+d[0].lat;lng=+d[0].lon;} }catch(e){} }
+  btn.textContent='Speichern'; btn.disabled=false;
+  const data={name,address,from:document.getElementById('f-pf').value,to:document.getElementById('f-pt').value,note:document.getElementById('f-pnote').value.trim(),category:chipVal('chips-cat'),lat,lng};
+  const day=state.days.find(d=>d.id===curDay);
+  if(ePlaceId){ Object.assign(day.places.find(p=>p.id===ePlaceId),data); }
+  else day.places.push({id:uid(),...data});
+  closeModal('m-place'); renderDays(); scheduleSave();
+  if(dayMaps[curDay]) refreshDayMap(curDay);
+  toast(ePlaceId?'✏️ Aktivität aktualisiert':'📍 Aktivität hinzugefügt');
+}
+function deletePlace(dayId,placeId){
+  const day=state.days.find(d=>d.id===dayId);
+  day.places=day.places.filter(p=>p.id!==placeId);
+  renderDays(); scheduleSave(); toast('🗑️ Aktivität gelöscht');
+}
+
+// ── PROFILES ──────────────────────────────────────────────
+function openProfModal(){ document.getElementById('f-profn').value=''; clearChips('chips-food'); document.querySelector('#chips-food .chip').classList.add('on'); clearChips('chips-int'); clearChips('chips-col'); document.querySelector('#chips-col .chip').classList.add('on'); openModal('m-prof'); setTimeout(()=>document.getElementById('f-profn').focus(),100); }
+function saveProf(){
+  const name=document.getElementById('f-profn').value.trim();
+  if(!name){ toast('⚠️ Name eingeben'); return; }
+  state.profiles.push({id:uid(),name,food:chipVal('chips-food'),interests:chipVals('chips-int'),color:chipVal('chips-col')});
+  closeModal('m-prof'); renderProfiles(); scheduleSave(); toast('👤 Profil erstellt!');
+}
+function deleteProf(id){ if(!confirm('Profil löschen?')) return; state.profiles=state.profiles.filter(p=>p.id!==id); renderProfiles(); scheduleSave(); toast('🗑️ Profil gelöscht'); }
+
+// ── RENDER DAYS ───────────────────────────────────────────
+function renderDays(){
+  const el=document.getElementById('days-list');
+  if(!state.days.length){ el.innerHTML=`<div class="empty"><div class="ic">📅</div><p>Noch keine Tage.<br>Fügt euren ersten Tag hinzu!</p></div>`; return; }
+  el.innerHTML=state.days.map((day,i)=>{
+    const col=COLORS[i%COLORS.length];
+    return `<div class="day-card" id="dc-${day.id}" draggable="true"
+      ondragstart="dStart(event,'${day.id}')" ondragover="dOver(event)" ondrop="dDrop(event,'${day.id}')" ondragleave="dLeave(event)" ondragend="dEnd()">
+      <div class="day-head">
+        <span class="drag-handle" title="Verschieben">⠿</span>
+        <div class="day-num" style="background:${col}">${i+1}</div>
+        <div class="day-title-wrap">
+          <div class="day-title-txt">${esc(day.title)}</div>
+          ${day.date?`<span class="day-date-chip">📅 ${fmtDate(day.date)}</span>`:''}
+        </div>
+        <div class="day-btns">
+          <button class="dh-btn" onclick="openDayModal('${day.id}')">✏️ Bearbeiten</button>
+          <button class="dh-btn del" onclick="deleteDay('${day.id}')">🗑️</button>
+        </div>
+      </div>
+      <div class="day-body">
+        ${day.note?`<div class="day-note">${esc(day.note)}</div>`:''}
+        <div class="places">
+          ${day.places.map(p=>`
+            <div class="place-row">
+              <div class="place-icon">${ce(p.category)}</div>
+              <div class="place-info">
+                <div class="place-name">${esc(p.name)}</div>
+                <div class="place-meta">
+                  ${p.address?`<span>📍 ${esc(p.address)}</span>`:''}
+                  ${p.from?`<span class="time-badge">🕐 ${p.from}${p.to?' – '+p.to:''}</span>`:''}
+                  ${p.note?`<span>💬 ${esc(p.note)}</span>`:''}
+                </div>
+              </div>
+              <div class="place-acts">
+                <button class="btn-icon" onclick="openPlaceModal('${day.id}','${p.id}')">✏️</button>
+                <button class="btn-icon del" onclick="deletePlace('${day.id}','${p.id}')">🗑️</button>
+              </div>
+            </div>`).join('')}
+        </div>
+        <button class="add-place-btn" onclick="openPlaceModal('${day.id}')">+ Aktivität hinzufügen</button>
+        <button class="map-toggle" onclick="toggleDayMap('${day.id}')">🗺️ Karte für diesen Tag</button>
+        <div class="day-map-wrap" id="dw-${day.id}">
+          <div class="day-map" id="dm-${day.id}"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── DAY MAP ───────────────────────────────────────────────
+function toggleDayMap(id){ const w=document.getElementById('dw-'+id); w.classList.toggle('open'); if(w.classList.contains('open')) setTimeout(()=>initDayMap(id),50); }
+function initDayMap(id){
+  if(dayMaps[id]){ refreshDayMap(id); return; }
+  const m=L.map('dm-'+id,{scrollWheelZoom:false}).setView([51.505,-0.09],13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
+  dayMaps[id]=m; refreshDayMap(id);
+}
+function refreshDayMap(id){
+  const m=dayMaps[id]; if(!m) return;
+  m.eachLayer(l=>{if(l instanceof L.Marker||l instanceof L.Polyline) m.removeLayer(l);});
+  const day=state.days.find(d=>d.id===id); if(!day) return;
+  const bounds=[],coords=[];
+  day.places.forEach((p,i)=>{
+    if(!p.lat) return;
+    bounds.push([p.lat,p.lng]); coords.push([p.lat,p.lng]);
+    const icon=L.divIcon({html:`<div style="background:#012169;color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13],className:''});
+    L.marker([p.lat,p.lng],{icon}).addTo(m).bindPopup(`<strong>${p.name}</strong>${p.address?`<br><small>${p.address}</small>`:''}${p.from?`<br>🕐 ${p.from}${p.to?' – '+p.to:''}`:''}`,{maxWidth:200});
+  });
+  if(coords.length>1) L.polyline(coords,{color:'#012169',weight:2.5,opacity:0.65,dashArray:'6,5'}).addTo(m);
+  if(bounds.length) m.fitBounds(bounds,{padding:[24,24]});
+  m.invalidateSize();
+}
+
+// ── OVERVIEW MAP ──────────────────────────────────────────
+function initOvMap(){
+  if(!ovMapState.init){ ovMapState.map=L.map('ov-map').setView([51.505,-0.09],12); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(ovMapState.map); ovMapState.init=true; }
+  const m=ovMapState.map;
+  m.eachLayer(l=>{if(l instanceof L.Marker||l instanceof L.Polyline) m.removeLayer(l);});
+  const legend=document.getElementById('map-legend'); legend.innerHTML='';
+  const all=[];
+  state.days.forEach((day,di)=>{
+    const col=COLORS[di%COLORS.length]; const coords=[];
+    day.places.forEach(p=>{
+      if(!p.lat) return;
+      all.push([p.lat,p.lng]); coords.push([p.lat,p.lng]);
+      const icon=L.divIcon({html:`<div style="background:${col};color:white;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:12px">${ce(p.category)}</span></div>`,iconSize:[28,28],iconAnchor:[14,28],className:''});
+      L.marker([p.lat,p.lng],{icon}).addTo(m).bindPopup(`<strong>${p.name}</strong>${p.address?`<br><small>${p.address}</small>`:''}${day.date?`<br>📅 ${fmtDate(day.date)}`:''}`,{maxWidth:220});
+    });
+    if(coords.length>1) L.polyline(coords,{color:col,weight:2.5,opacity:0.65,dashArray:'7,5'}).addTo(m);
+    if(day.places.length) legend.innerHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${col}"></div>Tag ${di+1}: ${esc(day.title)}</div>`;
+  });
+  if(all.length) m.fitBounds(all,{padding:[28,28]});
+  m.invalidateSize();
+}
+
+// ── RENDER PROFILES ───────────────────────────────────────
+function renderProfiles(){
+  document.getElementById('prof-grid').innerHTML=state.profiles.map(p=>`
+    <div class="prof-card">
+      <div class="prof-avatar" style="background:${p.color}">${initials(p.name)}</div>
+      <div class="prof-name">${esc(p.name)}</div>
+      <div class="prof-tags">
+        ${p.food?`<span class="prof-tag">${p.food}</span>`:''}
+        ${(p.interests||[]).map(i=>`<span class="prof-tag">${i}</span>`).join('')}
+      </div>
+      <div style="margin-top:11px"><button class="btn btn-ghost btn-sm" onclick="deleteProf('${p.id}')">🗑️ Entfernen</button></div>
+    </div>`).join('')+`<div class="add-prof-card" onclick="openProfModal()"><div style="font-size:2rem">+</div><div>Neues Profil</div></div>`;
+}
+
+// ── DRAG & DROP ───────────────────────────────────────────
+let dragId=null;
+function dStart(e,id){ dragId=id; setTimeout(()=>document.getElementById('dc-'+id).classList.add('dragging'),0); }
+function dEnd(){ document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('dragging','drag-over')); }
+function dOver(e){ e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function dLeave(e){ e.currentTarget.classList.remove('drag-over'); }
+function dDrop(e,tid){ e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(dragId===tid) return; const fi=state.days.findIndex(d=>d.id===dragId),ti=state.days.findIndex(d=>d.id===tid); const [it]=state.days.splice(fi,1); state.days.splice(ti,0,it); renderDays(); scheduleSave(); toast('↕️ Reihenfolge geändert'); }
+
+// ── INIT ─────────────────────────────────────────────────
+// Beim Start: prüfen ob Token schon gespeichert
+window.addEventListener('load', ()=>{
+  const saved = localStorage.getItem('gh_token_london');
+  if(saved){ token = saved; }
+});
+</script>
+</body>
+</html>
