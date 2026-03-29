@@ -90,6 +90,17 @@
           "category": "🏛️ Sehenswürdigkeit",
           "lat": 51.5055166,
           "lng": -0.0753662
+        },
+        {
+          "id": "mnbn1dxne6i",
+          "name": "Sky Garden",
+          "address": "Sky Garden, 20, Fenchurch Street",
+          "from": "15:00",
+          "to": "16:30",
+          "note": "",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.51127,
+          "lng": -0.0835396
         }
       ]
     }
