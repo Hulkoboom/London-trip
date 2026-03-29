@@ -1,4 +1,17 @@
 {
   "days": [],
-  "profiles": []
+  "profiles": [
+    {
+      "id": "mnbkdh0bbqg",
+      "name": "Alex",
+      "food": "🥗 Vegetarisch",
+      "interests": [
+        "🍺 Pub-Hopping",
+        "🛍️ Shopping",
+        "📸 Fotos",
+        "🍽️ Food"
+      ],
+      "color": "#2d7a4a"
+    }
+  ]
 }
