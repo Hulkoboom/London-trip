@@ -16,6 +16,17 @@
           "category": "🏨 Hotel",
           "lat": 51.5074,
           "lng": -0.1278
+        },
+        {
+          "id": "mnbmvhxbt2t",
+          "name": "Covent Garden",
+          "address": "Covent Garden, City of Westminster, Groß-London",
+          "from": "17:00",
+          "to": "19:00",
+          "note": "Soho & Covent Garden erkunden",
+          "category": "🛍️ Shopping",
+          "lat": 51.5117363,
+          "lng": -0.1226769
         }
       ]
     }
