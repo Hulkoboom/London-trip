@@ -2,329 +2,289 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇬🇧 London Trip – Alex, Steffi & Pinon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>🇬🇧 London Trip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root {
-  --red:    #E8192C;
-  --navy:   #0A2463;
-  --navy2:  #1a3a7a;
-  --gold:   #F5A623;
-  --gold2:  #ffc84a;
-  --teal:   #0096A0;
-  --purple: #7B2FBE;
-  --green:  #1B9A4E;
-  --pink:   #E84393;
-  --bg:     #F0EDE6;
-  --dark:   #111111;
-  --white:  #ffffff;
-  --muted:  #777;
-  --border: #DDD8CF;
-  --r:      16px;
-  --sh:     0 4px 20px rgba(10,36,99,0.12);
+:root{
+  --red:#E8192C;--navy:#0A2463;--navy2:#1a3a7a;
+  --gold:#F5A623;--gold2:#ffc84a;
+  --teal:#0096A0;--purple:#7B2FBE;--green:#1B9A4E;--pink:#E84393;
+  --bg:#F0EDE6;--dark:#111;--white:#fff;--muted:#777;--border:#DDD8CF;
+  --r:16px;--sh:0 4px 20px rgba(10,36,99,0.12);
+  --safe-b:env(safe-area-inset-bottom,0px);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
 
-/* ── LOGIN ────────────────────────────────────────────── */
-#login-screen{
-  position:fixed;inset:0;z-index:1000;
-  background:linear-gradient(135deg,var(--navy) 0%,#1a3a7a 55%,#0A2463 100%);
-  display:flex;align-items:center;justify-content:center;padding:24px;
-}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:2000;background:linear-gradient(135deg,#0A2463 0%,#1a3a7a 60%,#0a1a4a 100%);display:flex;align-items:center;justify-content:center;padding:20px}
 #login-screen.hidden{display:none}
-.login-blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(70px)}
-.login-box{
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:24px;padding:48px 40px;
-  width:100%;max-width:400px;text-align:center;
-  backdrop-filter:blur(12px);
-  box-shadow:0 32px 80px rgba(0,0,0,0.5);
-  position:relative;z-index:1;
-}
-.login-flag{font-size:3.2rem;margin-bottom:14px;display:block}
-.login-title{font-family:'Playfair Display',serif;font-size:2.1rem;color:white;margin-bottom:6px;line-height:1.15}
-.login-sub{color:rgba(255,255,255,0.4);font-size:0.86rem;margin-bottom:38px;font-weight:400}
-.login-label{display:block;text-align:left;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-#pin-input{
-  width:100%;padding:14px 20px;
-  background:rgba(255,255,255,0.08);
-  border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;
-  font-family:'DM Sans',sans-serif;font-size:1.1rem;color:white;
-  letter-spacing:3px;outline:none;transition:border-color 0.2s;text-align:center;
-}
+.login-blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px)}
+.login-box{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:24px;padding:40px 28px;width:100%;max-width:380px;text-align:center;backdrop-filter:blur(12px);box-shadow:0 32px 80px rgba(0,0,0,0.5);position:relative;z-index:1}
+.login-flag{font-size:2.8rem;margin-bottom:12px;display:block}
+.login-title{font-family:'Playfair Display',serif;font-size:1.9rem;color:white;margin-bottom:5px;line-height:1.15}
+.login-sub{color:rgba(255,255,255,0.4);font-size:0.84rem;margin-bottom:30px}
+.login-label{display:block;text-align:left;font-size:0.7rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+#pin-input{width:100%;padding:16px 20px;background:rgba(255,255,255,0.09);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:1.2rem;color:white;letter-spacing:4px;outline:none;transition:border-color .2s;text-align:center}
 #pin-input::placeholder{letter-spacing:1px;color:rgba(255,255,255,0.22);font-size:0.88rem}
 #pin-input:focus{border-color:var(--gold)}
-#pin-input.error{border-color:var(--red);animation:shake 0.4s ease}
+#pin-input.error{border-color:var(--red);animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-.btn-login{
-  width:100%;padding:15px;margin-top:8px;
-  background:var(--gold);color:var(--navy);
-  border:none;border-radius:12px;
-  font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;
-  cursor:pointer;transition:all 0.2s;
-}
-.btn-login:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-login{width:100%;padding:16px;margin-top:10px;background:var(--gold);color:var(--navy);border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
+.btn-login:active{transform:scale(0.98)}
 .login-error{color:#ff9999;font-size:0.82rem;margin-top:10px;min-height:18px}
-.login-hint{color:rgba(255,255,255,0.18);font-size:0.74rem;margin-top:28px}
+.login-hint{color:rgba(255,255,255,0.18);font-size:0.72rem;margin-top:24px}
 
-/* ── HERO ─────────────────────────────────────────────── */
-.hero{
-  background:linear-gradient(135deg,#0A2463 0%,#1a3a7a 55%,#0A2463 100%);
-  color:white;padding:52px 24px 44px;position:relative;overflow:hidden;
-}
-.hero-blob1{position:absolute;top:-30px;right:-50px;width:220px;height:220px;border-radius:50%;background:var(--red);opacity:.25}
-.hero-blob2{position:absolute;bottom:-70px;left:-40px;width:180px;height:180px;border-radius:50%;background:var(--gold);opacity:.20}
-.hero-blob3{position:absolute;top:40%;left:45%;width:120px;height:120px;border-radius:50%;background:var(--teal);opacity:.15}
-.hero-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:700;position:relative}
-.hero h1{font-family:'Playfair Display',serif;font-size:48px;line-height:1.0;font-weight:900;position:relative}
+/* HERO */
+.hero{background:linear-gradient(135deg,#0A2463 0%,#1a3a7a 55%,#0A2463 100%);color:white;padding:44px 20px 34px;position:relative;overflow:hidden}
+.hero-blob1{position:absolute;top:-30px;right:-50px;width:200px;height:200px;border-radius:50%;background:var(--red);opacity:.22}
+.hero-blob2{position:absolute;bottom:-60px;left:-40px;width:160px;height:160px;border-radius:50%;background:var(--gold);opacity:.18}
+.hero-blob3{position:absolute;top:40%;left:45%;width:100px;height:100px;border-radius:50%;background:var(--teal);opacity:.13}
+.hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:700;position:relative}
+.hero h1{font-family:'Playfair Display',serif;font-size:38px;line-height:1.0;font-weight:900;position:relative}
 .hero h1 em{color:var(--gold);font-style:italic}
-.hero-sub{margin-top:14px;font-size:15px;color:rgba(255,255,255,.85);line-height:1.6;font-weight:400;position:relative}
-.crew-badges{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap;position:relative}
-.badge{border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;letter-spacing:.3px}
+.hero-sub{margin-top:10px;font-size:14px;color:rgba(255,255,255,.8);line-height:1.5;position:relative}
+.crew-badges{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap;position:relative}
+.badge{border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700}
 .badge-veg{background:#1B9A4E;color:#fff}
 .badge-meat{background:#E8192C;color:#fff}
-.hero-sync{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:7px;background:rgba(0,0,0,0.25);padding:6px 12px;border-radius:20px;font-size:0.72rem;color:rgba(255,255,255,0.7)}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#888;transition:background 0.3s;flex-shrink:0}
+.hero-sync{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.28);padding:5px 10px;border-radius:20px;font-size:0.67rem;color:rgba(255,255,255,0.75)}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:#888;transition:background .3s;flex-shrink:0}
 .sync-dot.ok{background:#4caf50}
 .sync-dot.saving{background:var(--gold);animation:pulse 1s infinite}
 .sync-dot.err{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.btn-logout-hero{background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.7);padding:5px 12px;border-radius:8px;font-size:0.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-left:4px}
-.btn-logout-hero:hover{background:rgba(255,255,255,0.25);color:white}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.btn-logout-hero{background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.7);padding:4px 10px;border-radius:8px;font-size:0.67rem;cursor:pointer;font-family:'DM Sans',sans-serif;margin-left:3px}
 
-/* ── NAV ──────────────────────────────────────────────── */
-.tab-nav{display:flex;background:var(--navy);border-bottom:3px solid var(--gold);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
-.tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{flex-shrink:0;padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:color .2s;white-space:nowrap}
-.tab-btn.active{color:var(--gold);border-bottom:3px solid var(--gold);margin-bottom:-3px}
-.tab-btn:hover{color:rgba(255,255,255,.85)}
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--navy);border-top:2px solid var(--gold);display:flex;align-items:stretch;padding-bottom:var(--safe-b);box-shadow:0 -4px 20px rgba(0,0,0,.2)}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 2px 7px;border:none;background:none;cursor:pointer;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;gap:3px;min-height:54px}
+.bnav-btn .ico{font-size:19px;line-height:1}
+.bnav-btn.active{color:var(--gold)}
+.bnav-btn:active{opacity:.6}
 
-/* ── CONTENT ──────────────────────────────────────────── */
-.content{padding:24px 16px 80px;max-width:600px;margin:0 auto}
-.page{display:none}
-.page.active{display:block}
+/* SUB NAV */
+.sub-nav{background:rgba(10,36,99,0.05);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+.sub-nav::-webkit-scrollbar{display:none}
+.sub-btn{flex-shrink:0;padding:12px 13px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(10,36,99,.4);background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s}
+.sub-btn.active{color:var(--navy);border-bottom-color:var(--gold)}
 
-/* ── SECTION HEADER ───────────────────────────────────── */
-.section-header{margin-bottom:22px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.section-header-txt h2{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--navy)}
-.section-header-txt p{font-size:15px;color:#444;margin-top:6px;line-height:1.55;font-weight:400}
+/* MAIN */
+.app-body{padding-bottom:calc(60px + var(--safe-b))}
+.content{padding:14px 14px 20px;max-width:600px;margin:0 auto}
+.view{display:none}
+.view.active{display:block;animation:fadeUp .24s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── DAY LABEL ────────────────────────────────────────── */
-.day-label{display:flex;align-items:center;gap:12px;margin:28px 0 14px}
-.day-dot{width:40px;height:40px;border-radius:50%;color:white;font-family:'Playfair Display',serif;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.day-label-text h3{font-size:16px;font-weight:700;color:var(--dark)}
-.day-label-text span{font-size:13px;color:#555;font-weight:400}
+/* SECTION HEADER */
+.section-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.section-header h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--navy)}
+.section-header p{font-size:13px;color:#555;margin-top:4px;line-height:1.5}
 
-/* ── CARDS ────────────────────────────────────────────── */
-.card{background:var(--white);border-radius:18px;margin-bottom:13px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.09);position:relative}
-.card-stripe{height:5px;width:100%}
-.card-inner{padding:15px 18px 16px}
-.card-time{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;font-weight:700;margin-bottom:5px}
-.card h4{font-size:17px;font-weight:700;margin-bottom:6px;color:var(--dark);line-height:1.3}
-.card-desc{font-size:14px;color:#333;line-height:1.65;font-weight:400}
-.card-desc strong{color:var(--dark);font-weight:700}
-.card-tags{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
-.tag{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700}
-.tag-veg{background:#C8F0D6;color:#0A5C2A}
-.tag-beer{background:#FFF0C0;color:#6B3A00}
-.tag-free{background:#C8E8F5;color:#053B6A}
-.tag-tip{background:#FDD8EB;color:#7B0040}
-.tag-paid{background:#E8DAFF;color:#3D0080}
+/* CARDS */
+.card{background:var(--white);border-radius:16px;margin-bottom:11px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.card-stripe{height:4px}
+.card-inner{padding:12px 14px 13px}
+.card-time{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.card h4{font-size:15px;font-weight:700;margin-bottom:5px;color:var(--dark);line-height:1.3}
+.card-desc{font-size:13px;color:#333;line-height:1.6}
+.card-desc strong{font-weight:700}
+.card-tags{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap}
+.tag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700}
+.tag-veg{background:#C8F0D6;color:#0A5C2A}.tag-beer{background:#FFF0C0;color:#6B3A00}
+.tag-free{background:#C8E8F5;color:#053B6A}.tag-tip{background:#FDD8EB;color:#7B0040}.tag-paid{background:#E8DAFF;color:#3D0080}
+.s-red{background:var(--red)}.s-navy{background:var(--navy)}.s-gold{background:var(--gold)}.s-green{background:var(--green)}.s-teal{background:var(--teal)}.s-purple{background:var(--purple)}.s-pink{background:var(--pink)}
+.t-red{color:var(--red)}.t-navy{color:var(--navy)}.t-gold{color:#A06A00}.t-green{color:var(--green)}.t-teal{color:var(--teal)}.t-purple{color:var(--purple)}.t-pink{color:var(--pink)}
 
-/* editable card actions */
-.card-acts{display:flex;gap:4px;margin-top:10px}
-.btn-icon{background:none;border:none;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;transition:background 0.15s;color:var(--muted)}
-.btn-icon:hover{background:#f0ede6}
-.btn-icon.del:hover{background:#ffeaea;color:var(--red)}
-
-/* stripe / time classes */
-.s-red{background:var(--red)}.s-navy{background:var(--navy)}.s-gold{background:var(--gold)}
-.s-green{background:var(--green)}.s-teal{background:var(--teal)}.s-purple{background:var(--purple)}.s-pink{background:var(--pink)}
-.t-red{color:var(--red)}.t-navy{color:var(--navy)}.t-gold{color:#A06A00}
-.t-green{color:var(--green)}.t-teal{color:var(--teal)}.t-purple{color:var(--purple)}.t-pink{color:var(--pink)}
-
-/* ── TIP BOX ──────────────────────────────────────────── */
-.tip-box{border-radius:16px;padding:20px 22px;margin:22px 0;position:relative;overflow:hidden}
-.tip-box::after{content:attr(data-icon);font-size:52px;position:absolute;right:14px;top:8px;opacity:.15;line-height:1}
-.tip-box-navy{background:var(--navy);color:white}.tip-box-teal{background:var(--teal);color:white}
-.tip-box-red{background:var(--red);color:white}.tip-box-green{background:var(--green);color:white}
-.tip-box-purple{background:var(--purple);color:white}
-.tip-box h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:8px}
-.tip-box p{font-size:14px;line-height:1.7;font-weight:400}
+/* TIP BOX */
+.tip-box{border-radius:14px;padding:16px 18px;margin:16px 0;position:relative;overflow:hidden}
+.tip-box::after{content:attr(data-icon);font-size:42px;position:absolute;right:10px;top:8px;opacity:.13;line-height:1}
+.tip-box-navy{background:var(--navy);color:white}.tip-box-teal{background:var(--teal);color:white}.tip-box-red{background:var(--red);color:white}.tip-box-green{background:var(--green);color:white}.tip-box-purple{background:var(--purple);color:white}
+.tip-box h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:6px}
+.tip-box p{font-size:13px;line-height:1.65}
 .tip-box strong{font-weight:700}
 
-/* ── STAT GRID ────────────────────────────────────────── */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
-.stat-card{border-radius:16px;padding:18px 16px;text-align:center;color:white}
-.stat-card .num{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;line-height:1}
-.stat-card .lbl{font-size:12px;margin-top:5px;opacity:.9;font-weight:500}
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}
+.stat-card{border-radius:14px;padding:15px 12px;text-align:center;color:white}
+.stat-card .num{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;line-height:1}
+.stat-card .lbl{font-size:11px;margin-top:4px;opacity:.9;font-weight:500}
 .sc-red{background:var(--red)}.sc-navy{background:var(--navy)}.sc-teal{background:var(--teal)}.sc-green{background:var(--green)}
 
-/* ── HOTEL BOX ────────────────────────────────────────── */
-.hotel-box{background:white;border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 3px 12px rgba(0,0,0,.08);border-left:5px solid var(--gold)}
-.hotel-box h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.hotel-box p{font-size:14px;color:#333;line-height:1.65}
-.hotel-box strong{font-weight:700;color:var(--dark)}
+/* HOTEL BOX */
+.hotel-box{background:white;border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:4px solid var(--gold)}
+.hotel-box h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.hotel-box p{font-size:13px;color:#333;line-height:1.55}
 
-/* ── CHECKLIST ────────────────────────────────────────── */
+/* DAY LABEL */
+.day-label{display:flex;align-items:center;gap:10px;margin:22px 0 11px}
+.day-dot{width:36px;height:36px;border-radius:50%;color:white;font-family:'Playfair Display',serif;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.day-label-text h3{font-size:14px;font-weight:700}
+.day-label-text span{font-size:12px;color:#555}
+
+/* CHECKLIST */
 .checklist{list-style:none}
-.checklist li{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid #DDD8CF;font-size:14px;line-height:1.55;color:#222;font-weight:400}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid #DDD8CF;font-size:13px;line-height:1.5;color:#222}
 .checklist li:last-child{border:none}
-.checklist li strong{font-weight:700;color:var(--dark)}
-.chk{width:24px;height:24px;border-radius:7px;flex-shrink:0;margin-top:1px}
+.chk{width:20px;height:20px;border-radius:6px;flex-shrink:0;margin-top:2px}
 
-/* ── DAY CARDS (Tage-Tab) ─────────────────────────────── */
-.day-card{background:white;border-radius:var(--r);margin-bottom:18px;overflow:hidden;box-shadow:var(--sh);border:1px solid var(--border)}
-.day-card.drag-over{outline:2px dashed var(--gold);outline-offset:2px}
-.day-head{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:10px}
-.drag-handle{color:rgba(255,255,255,0.3);cursor:grab;font-size:1.1rem;user-select:none}
-.drag-handle:active{cursor:grabbing}
-.day-num{background:var(--gold);color:var(--navy);font-weight:700;font-size:0.72rem;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* PLANNER DAY CARDS */
+.day-card{background:white;border-radius:var(--r);margin-bottom:14px;overflow:hidden;box-shadow:var(--sh);border:1px solid var(--border)}
+.day-head{background:var(--navy);padding:11px 13px;display:flex;align-items:center;gap:8px}
+.drag-handle{color:rgba(255,255,255,.3);cursor:grab;font-size:1rem;user-select:none;padding:2px 3px}
+.day-num{background:var(--gold);color:var(--navy);font-weight:700;font-size:0.68rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .day-title-wrap{flex:1;min-width:0}
-.day-title-txt{font-family:'Playfair Display',serif;color:white;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.day-date-chip{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-size:0.7rem;padding:2px 9px;border-radius:20px;margin-top:3px;display:inline-block}
-.day-head-btns{display:flex;gap:4px;margin-left:auto}
-.dh-btn{background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.75);padding:5px 10px;border-radius:5px;font-size:0.72rem;cursor:pointer;transition:background 0.2s;font-family:'DM Sans',sans-serif}
-.dh-btn:hover{background:rgba(255,255,255,0.25)}
-.dh-btn.del{color:#ff9999}.dh-btn.del:hover{background:rgba(200,16,46,0.35)}
-.day-body{padding:16px 18px}
-.day-note{font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:14px;padding-left:12px;border-left:3px solid var(--gold)}
+.day-title-txt{font-family:'Playfair Display',serif;color:white;font-size:0.97rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day-date-chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:0.65rem;padding:2px 7px;border-radius:20px;margin-top:2px;display:inline-block}
+.day-head-btns{display:flex;gap:3px;margin-left:auto}
+.dh-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.75);padding:7px 10px;border-radius:6px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;min-height:36px}
+.dh-btn:active{background:rgba(255,255,255,.25)}
+.dh-btn.del{color:#ff9999}
+.day-body{padding:13px}
+.day-note{font-size:0.79rem;color:var(--muted);font-style:italic;margin-bottom:11px;padding-left:10px;border-left:3px solid var(--gold)}
 
-/* places */
-.places{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
-.place-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
-.place-icon{width:36px;height:36px;border-radius:8px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+/* PLACES */
+.places{display:flex;flex-direction:column;gap:7px;margin-bottom:9px}
+.place-row{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.place-icon{width:32px;height:32px;border-radius:7px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
 .place-info{flex:1;min-width:0}
-.place-name{font-weight:700;font-size:0.88rem;color:var(--navy)}
-.place-meta{font-size:0.73rem;color:var(--muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:7px}
-.time-badge{background:var(--navy);color:white;padding:1px 8px;border-radius:20px;font-size:0.68rem}
-.place-acts{display:flex;gap:2px}
+.place-name{font-weight:700;font-size:0.84rem;color:var(--navy)}
+.place-meta{font-size:0.69rem;color:var(--muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:5px}
+.time-badge{background:var(--navy);color:white;padding:1px 7px;border-radius:20px;font-size:0.63rem}
+.place-acts{display:flex;gap:2px;flex-shrink:0}
+.btn-icon{background:none;border:none;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;color:var(--muted)}
+.btn-icon:active{background:var(--bg)}
+.btn-icon.del:active{background:#ffeaea;color:var(--red)}
+.add-place-btn{border:2px dashed var(--border);background:transparent;color:var(--muted);padding:11px;border-radius:10px;cursor:pointer;text-align:center;font-size:.82rem;width:100%;font-family:'DM Sans',sans-serif;min-height:44px}
+.add-place-btn:active{border-color:var(--red);color:var(--red)}
 
-.add-place-btn{border:2px dashed var(--border);background:transparent;color:var(--muted);padding:9px;border-radius:10px;cursor:pointer;text-align:center;font-size:0.81rem;width:100%;font-family:'DM Sans',sans-serif;transition:all 0.2s}
-.add-place-btn:hover{border-color:var(--red);color:var(--red);background:#fff8f8}
+/* DAY ACTION BUTTONS */
+.day-actions{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.day-action-btn{flex:1;min-width:100px;display:flex;align-items:center;justify-content:center;gap:5px;border:1.5px solid var(--border);background:transparent;color:var(--muted);padding:9px 10px;border-radius:8px;font-size:.74rem;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;min-height:40px}
+.day-action-btn.gmaps{border-color:rgba(66,133,244,.5);color:#4285f4}
+.day-action-btn:active{opacity:.6}
 
-/* map toggle */
-.map-toggle{background:none;border:1.5px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-size:0.78rem;cursor:pointer;margin-top:10px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
-.map-toggle:hover{border-color:var(--navy);color:var(--navy)}
-.day-map-wrap{margin-top:12px;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none}
+/* MAPS */
+.day-map-wrap{margin-top:9px;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none}
 .day-map-wrap.open{display:block}
-.day-map{height:260px;width:100%}
+.day-map{height:230px;width:100%}
+#ov-map{height:400px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.leg-item{background:white;border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:.72rem;display:flex;align-items:center;gap:5px}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* overview map */
-#ov-map{height:480px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
-.map-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.leg-item{background:white;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:0.77rem;display:flex;align-items:center;gap:6px}
-.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+/* EXPORT BAR */
+.export-bar{background:white;border-radius:var(--r);padding:13px;margin-bottom:14px;box-shadow:var(--sh);border:1px solid var(--border)}
+.export-bar-title{font-weight:700;font-size:0.84rem;color:var(--navy);margin-bottom:9px;display:block}
+.export-bar-hint{font-size:0.74rem;color:var(--muted);margin-bottom:9px;line-height:1.5}
+.export-btns{display:flex;gap:7px;flex-wrap:wrap}
+.export-btn{display:flex;align-items:center;gap:5px;padding:10px 14px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;border:none;min-height:42px;flex:1;justify-content:center}
+.export-btn-kml{background:#4285f4;color:white}
+.export-btn-csv{background:var(--green);color:white}
+.export-btn:active{opacity:.8}
 
-/* empty */
-.empty{text-align:center;padding:52px 20px;color:var(--muted)}
-.empty .ic{font-size:3rem;margin-bottom:14px}
-
-/* ── MODALS ───────────────────────────────────────────── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:20px}
+/* MODALS (bottom sheet) */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:flex-end;justify-content:center;padding:0}
 .overlay.open{display:flex}
-.modal{background:white;border-radius:20px;padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:pop 0.25s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes pop{from{opacity:0;transform:scale(0.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal h2{font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;font-size:1.25rem}
-.mf{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.modal{background:white;border-radius:22px 22px 0 0;width:100%;max-width:540px;max-height:93vh;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.25);animation:bsUp .26s cubic-bezier(0.32,.72,0,1)}
+@keyframes bsUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:34px;height:4px;border-radius:2px;background:#ddd;margin:11px auto 0}
+.modal-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-head h2{font-family:'Playfair Display',serif;color:var(--navy);font-size:1.1rem}
+.modal-body{padding:14px 18px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.modal-foot{padding:12px 18px;padding-bottom:calc(12px + var(--safe-b));border-top:1px solid var(--border);display:flex;gap:9px;justify-content:flex-end;flex-shrink:0;background:white;border-radius:0 0 22px 22px}
 
-.fg{margin-bottom:14px;position:relative}
-.fg label{display:block;font-size:0.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--dark);background:white;outline:none;transition:border-color 0.2s}
+.fg{margin-bottom:12px;position:relative}
+.fg label{display:block;font-size:.71rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--dark);background:white;outline:none;transition:border-color .2s;-webkit-appearance:none}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--navy)}
-.fg textarea{resize:vertical}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg textarea{resize:none;font-size:15px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative}
+.ac-drop{position:absolute;top:100%;left:0;right:0;z-index:999;background:white;border-radius:14px;border:1.5px solid var(--navy);box-shadow:0 10px 36px rgba(10,36,99,.22);max-height:250px;overflow-y:auto;margin-top:4px;display:none;-webkit-overflow-scrolling:touch}
+.ac-drop.open{display:block}
+.ac-item{display:flex;align-items:center;gap:10px;padding:12px 13px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.ac-item:last-of-type{border:none}
+.ac-item:active{background:var(--bg)}
+.ac-ico{width:32px;height:32px;border-radius:8px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.ac-name{font-weight:700;font-size:.86rem;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac-addr{font-size:.70rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.ac-loading{padding:15px;text-align:center;color:var(--muted);font-size:.82rem}
+.ac-footer{padding:6px 13px;font-size:.64rem;color:var(--muted);border-top:1px solid var(--border);text-align:right}
+
+/* CHIPS */
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{padding:6px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.79rem;cursor:pointer;transition:all 0.2s;background:white;font-family:'DM Sans',sans-serif;user-select:none}
-.chip:hover{border-color:var(--navy)}
+.chip{padding:8px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:.77rem;cursor:pointer;background:white;font-family:'DM Sans',sans-serif;user-select:none;min-height:36px;display:flex;align-items:center}
 .chip.on{background:var(--navy);border-color:var(--navy);color:white}
+.chip:active{opacity:.7}
 
-/* ── GOOGLE PLACES AUTOCOMPLETE ───────────────────────── */
-.places-search-wrap{position:relative}
-.places-dropdown{
-  position:absolute;top:100%;left:0;right:0;z-index:500;
-  background:white;border-radius:12px;border:1.5px solid var(--navy);
-  box-shadow:0 8px 32px rgba(10,36,99,0.18);
-  max-height:280px;overflow-y:auto;margin-top:4px;
-  display:none;
-}
-.places-dropdown.open{display:block}
-.places-suggestion{
-  display:flex;align-items:center;gap:10px;
-  padding:11px 14px;cursor:pointer;transition:background 0.15s;
-  border-bottom:1px solid var(--border);
-}
-.places-suggestion:last-child{border:none}
-.places-suggestion:hover{background:var(--bg)}
-.places-sug-icon{width:32px;height:32px;border-radius:8px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
-.places-sug-info{flex:1;min-width:0}
-.places-sug-name{font-weight:700;font-size:0.86rem;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.places-sug-addr{font-size:0.72rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
-.places-loading{padding:14px;text-align:center;color:var(--muted);font-size:0.82rem}
-.places-powered{padding:8px 14px;font-size:0.68rem;color:var(--muted);text-align:right;border-top:1px solid var(--border)}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:11px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:700;cursor:pointer;border:none;min-height:42px}
+.btn-red{background:var(--red);color:white}.btn-red:active{opacity:.85}
+.btn-navy{background:var(--navy);color:white}.btn-navy:active{opacity:.85}
+.btn-ghost{background:none;color:var(--muted);border:1.5px solid var(--border)}.btn-ghost:active{background:var(--bg)}
+.btn-sm{padding:9px 14px;font-size:.80rem;min-height:38px}
 
-/* ── BUTTONS ──────────────────────────────────────────── */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.87rem;font-weight:700;cursor:pointer;border:none;transition:all 0.2s}
-.btn-red{background:var(--red);color:white}.btn-red:hover{background:#c8102e}
-.btn-navy{background:var(--navy);color:white}.btn-navy:hover{background:var(--navy2)}
-.btn-ghost{background:none;color:var(--muted)}.btn-ghost:hover{background:var(--bg);color:var(--dark)}
-.btn-sm{padding:6px 12px;font-size:0.78rem}
+/* TOAST */
+#toast{position:fixed;bottom:calc(62px + var(--safe-b) + 8px);left:50%;transform:translateX(-50%) translateY(16px);background:#1a2a4a;color:white;padding:10px 16px;border-radius:10px;font-size:.82rem;z-index:600;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-/* ── TOAST ────────────────────────────────────────────── */
-#toast{position:fixed;bottom:24px;right:24px;background:#1a2a4a;color:white;padding:11px 18px;border-radius:10px;font-size:0.83rem;z-index:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:300px}
-#toast.show{transform:translateY(0);opacity:1}
+/* FOOTER */
+.footer-note{text-align:center;font-size:12px;color:#888;margin-top:32px;padding:14px 0}
+.footer-note strong{color:var(--red)}
 
-/* ── FOOTER ───────────────────────────────────────────── */
-.footer-note{text-align:center;font-size:13px;color:#888;margin-top:40px;padding:20px 0;font-weight:400}
-.footer-note strong{color:var(--red);font-weight:700}
+/* ANIMATIONS */
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.view.active .card{animation:slideUp .24s ease both}
+.view.active .card:nth-child(2){animation-delay:.05s}
+.view.active .card:nth-child(3){animation-delay:.09s}
+.view.active .card:nth-child(4){animation-delay:.13s}
+.view.active .card:nth-child(5){animation-delay:.17s}
+.view.active .tip-box,.view.active .stat-card{animation:slideUp .24s ease both}
 
-/* ── ANIMATIONS ───────────────────────────────────────── */
-@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.page.active .card{animation:slideUp .28s ease both}
-.page.active .tip-box{animation:slideUp .28s ease both}
-.page.active .stat-card{animation:slideUp .28s ease both}
-.page.active .card:nth-child(2){animation-delay:.06s}
-.page.active .card:nth-child(3){animation-delay:.10s}
-.page.active .card:nth-child(4){animation-delay:.14s}
-.page.active .card:nth-child(5){animation-delay:.18s}
-.page.active .card:nth-child(6){animation-delay:.22s}
-
-@media(max-width:600px){
-  .hero h1{font-size:36px}
-  .content{padding:16px 12px 60px}
-  .row2{grid-template-columns:1fr}
-  .login-box{padding:32px 20px}
-  .section-header{flex-direction:column}
+/* DESKTOP */
+@media(min-width:640px){
+  .bottom-nav{position:sticky;top:0;flex-direction:row;border-top:none;border-bottom:2px solid var(--gold);padding-bottom:0}
+  .bnav-btn{flex-direction:row;gap:6px;padding:12px 14px;font-size:11px;min-height:auto}
+  .bnav-btn .ico{font-size:15px}
+  .app-body{padding-bottom:0}
+  .overlay{align-items:center;padding:20px}
+  .modal{border-radius:20px;max-height:90vh}
+  @keyframes bsUp{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .modal-foot{border-radius:0 0 20px 20px}
+  #toast{bottom:24px}
 }
 </style>
 </head>
 <body>
 
-<!-- ══════════ LOGIN ══════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen">
-  <div class="login-blob" style="width:300px;height:300px;top:-100px;left:-100px;background:rgba(232,25,44,0.2)"></div>
-  <div class="login-blob" style="width:200px;height:200px;bottom:-60px;right:-60px;background:rgba(245,166,35,0.15)"></div>
+  <div class="login-blob" style="width:280px;height:280px;top:-80px;left:-80px;background:rgba(232,25,44,.2)"></div>
+  <div class="login-blob" style="width:180px;height:180px;bottom:-50px;right:-50px;background:rgba(245,166,35,.15)"></div>
   <div class="login-box">
     <span class="login-flag">🇬🇧</span>
     <div class="login-title">London Trip</div>
     <div class="login-sub">Gebt euren PIN ein um loszulegen</div>
     <label class="login-label">PIN eingeben</label>
-    <input id="pin-input" type="password" placeholder="Euer gemeinsamer PIN" maxlength="50"
+    <input id="pin-input" type="password" inputmode="numeric" placeholder="••••••" maxlength="20"
            onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="btn-login" onclick="doLogin()" id="btn-login">Einloggen →</button>
+    <button class="btn-login" onclick="doLogin()">Einloggen →</button>
     <div class="login-error" id="login-error"></div>
     <div class="login-hint">Nur für die Reisegruppe 🔒</div>
   </div>
 </div>
 
-<!-- ══════════ HERO ════════════════════════════════════════ -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-blob1"></div><div class="hero-blob2"></div><div class="hero-blob3"></div>
   <div class="hero-sync">
@@ -334,623 +294,483 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);min
   </div>
   <div class="hero-tag">✈️ Freitag bis Montag · London</div>
   <h1>Good<br><em>Bloody</em><br>London.</h1>
-  <p class="hero-sub">3 Tage · 1 Stadt · unendlich gute Zeit.<br>Euer persönlicher Reiseführer.</p>
+  <p class="hero-sub">3 Tage · 1 Stadt · unendlich gute Zeit.</p>
   <div class="crew-badges">
-    <span class="badge badge-veg">🌿 Alex (veg)</span>
+    <span class="badge badge-veg">🌿 Alex</span>
     <span class="badge badge-meat">🥩 Steffi</span>
-    <span class="badge badge-veg">🌿 Pinon (veg)</span>
+    <span class="badge badge-veg">🌿 Pinon</span>
   </div>
 </div>
 
-<!-- ══════════ NAV ═════════════════════════════════════════ -->
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="showPage('overview',this)">🗺 Überblick</button>
-  <button class="tab-btn" onclick="showPage('friday',this)">Fr ✈️</button>
-  <button class="tab-btn" onclick="showPage('saturday',this)">Sa 🏰</button>
-  <button class="tab-btn" onclick="showPage('sunday',this)">So 👑</button>
-  <button class="tab-btn" onclick="showPage('monday',this)">Mo 🛫</button>
-  <button class="tab-btn" onclick="showPage('food',this)">🍽️ Essen</button>
-  <button class="tab-btn" onclick="showPage('tips',this)">💬 Tipps</button>
-  <button class="tab-btn" onclick="showPage('planner',this)">📅 Planer</button>
-  <button class="tab-btn" onclick="showPage('mapview',this)">🗺️ Karte</button>
+<!-- BOTTOM / TOP NAV -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" onclick="switchView('overview',this)"><span class="ico">🗺</span>Überblick</button>
+  <button class="bnav-btn" onclick="switchView('days-static',this)"><span class="ico">📅</span>Plan</button>
+  <button class="bnav-btn" onclick="switchView('planner',this)"><span class="ico">✏️</span>Planer</button>
+  <button class="bnav-btn" onclick="switchView('mapview',this)"><span class="ico">📍</span>Karte</button>
+  <button class="bnav-btn" onclick="switchView('tips',this)"><span class="ico">💬</span>Tipps</button>
 </nav>
 
-<div class="content">
+<div class="app-body">
 
-<!-- ══════════ OVERVIEW ═══════════════════════════════════ -->
-<div id="overview" class="page active">
-  <div class="section-header">
-    <div class="section-header-txt">
-      <h2>Euer Trip auf einen Blick</h2>
-      <p>Freitag rein, Montag raus – 3 Nächte London. Sehenswürdigkeiten, Streetfood-Märkte, echte Pubs.</p>
-    </div>
-  </div>
+<!-- OVERVIEW -->
+<div class="view active" id="view-overview"><div class="content">
+  <div class="section-header"><div><h2>Euer Trip 🇬🇧</h2><p>Freitag rein, Montag raus – 3 Nächte London.</p></div></div>
   <div class="stat-grid">
     <div class="stat-card sc-navy"><div class="num">3</div><div class="lbl">Nächte London</div></div>
-    <div class="stat-card sc-red"><div class="num">3</div><div class="lbl">Reisende 🧑‍🤝‍🧑</div></div>
+    <div class="stat-card sc-red"><div class="num">3</div><div class="lbl">Reisende</div></div>
     <div class="stat-card sc-green"><div class="num">2/3</div><div class="lbl">Vegetarisch 🌿</div></div>
-    <div class="stat-card sc-teal"><div class="num">∞</div><div class="lbl">Pints Bier 🍺</div></div>
+    <div class="stat-card sc-teal"><div class="num">∞</div><div class="lbl">Pints 🍺</div></div>
   </div>
-  <div class="hotel-box">
-    <h4>🏨 Hotel-Empfehlung</h4>
-    <p><strong>Leicester House Hotel</strong> – direkt am Leicester Square, beste Lage, alles fußläufig. Mittelklasse, komfortabel.<br>Alternativ: <strong>Mimi's Hotel Soho</strong> – stylisher, etwas teurer, eigene Bar im Haus.</p>
+  <div class="hotel-box"><h4>🏨 Hotel-Empfehlung</h4><p><strong>Leicester House Hotel</strong> – direkt am Leicester Square, alles fußläufig.<br>Alternativ: <strong>Mimi's Hotel Soho</strong> – stylisher, eigene Bar.</p></div>
+  <div class="day-label"><div class="day-dot" style="background:var(--navy)">Fr</div><div class="day-label-text"><h3>Ankunft & Soho-Abend</h3><span>Ankommen · Covent Garden · Pub</span></div></div>
+  <div class="day-label"><div class="day-dot" style="background:var(--red)">Sa</div><div class="day-label-text"><h3>Big London Day</h3><span>Borough Market · Tower · Sky Garden</span></div></div>
+  <div class="day-label"><div class="day-dot" style="background:var(--teal)">So</div><div class="day-label-text"><h3>Royal & Entspannt</h3><span>Buckingham · Westminster · National Gallery</span></div></div>
+  <div class="day-label"><div class="day-dot" style="background:var(--green)">Mo</div><div class="day-label-text"><h3>Letzter Bissen</h3><span>Notting Hill · Govinda's · Flughafen</span></div></div>
+  <p class="footer-note">Made with ❤️ für <strong>Alex, Steffi & Pinon</strong></p>
+</div></div>
+
+<!-- STATIC DAYS -->
+<div class="view" id="view-days-static">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSubDay('fri',this)">Fr ✈️</button>
+    <button class="sub-btn" onclick="showSubDay('sat',this)">Sa 🏰</button>
+    <button class="sub-btn" onclick="showSubDay('sun',this)">So 👑</button>
+    <button class="sub-btn" onclick="showSubDay('mon',this)">Mo 🛫</button>
+    <button class="sub-btn" onclick="showSubDay('food',this)">🍽️ Essen</button>
   </div>
-  <div class="day-label"><div class="day-dot" style="background:var(--navy)">Fr</div><div class="day-label-text"><h3>Ankunft & Soho-Abend</h3><span>Ankommen · erste Erkundungstour · erster Pub</span></div></div>
-  <div class="day-label"><div class="day-dot" style="background:var(--red)">Sa</div><div class="day-label-text"><h3>Big London Day</h3><span>Borough Market · Tower · Southbank · Sky Garden</span></div></div>
-  <div class="day-label"><div class="day-dot" style="background:var(--teal)">So</div><div class="day-label-text"><h3>Royal & Entspannt</h3><span>Buckingham · Hyde Park · Westminster · Pub</span></div></div>
-  <div class="day-label"><div class="day-dot" style="background:var(--green)">Mo</div><div class="day-label-text"><h3>Letzter Bissen</h3><span>Frühstück · Portobello Road · Flughafen</span></div></div>
-  <p class="footer-note">Erstellt für <strong>Alex, Steffi & Pinon</strong> 🇬🇧</p>
+  <div class="content">
+  <div id="sd-fri" class="sub-day">
+    <div class="section-header"><div><h2>Freitag ✈️</h2><p>Ankunft & erste London-Luft schnuppern.</p></div></div>
+    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Nachmittag</div><h4>✈️ Check-in & Orientierung</h4><p class="card-desc">Heathrow → Piccadilly Line, ca. 50 Min, ca. £6. <strong>Oyster Card</strong> am Automaten kaufen!</p><div class="card-tags"><span class="tag tag-tip">Oyster Card kaufen</span></div></div></div>
+    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">17:00 – 19:00</div><h4>🚶 Soho & Covent Garden</h4><p class="card-desc">Carnaby Street, Seven Dials, Covent Garden – einfach laufen und staunen.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00 – 21:00</div><h4>🌿 Bubala Soho</h4><p class="card-desc">100% vegetarische Middle-Eastern Sharing Plates. <strong>Reservierung nötig!</strong> ⭐ 4.6 · 15 Poland St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span><span class="tag tag-tip">Reservieren!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00</div><h4>🍺 The Harp Pub</h4><p class="card-desc">Uriges Craft-Pub in Covent Garden, hervorragende Real Ales. 47 Chandos Pl</p><div class="card-tags"><span class="tag tag-beer">Real Ale</span><span class="tag tag-tip">An der Bar bestellen!</span></div></div></div>
+    <div class="tip-box tip-box-navy" data-icon="💡"><h4>Freitag-Tipp</h4><p>Freitagabend in Soho ist voll, laut und lebendig. <strong>Das ist London auf Anhieb.</strong></p></div>
+  </div>
+  <div id="sd-sat" class="sub-day" style="display:none">
+    <div class="section-header"><div><h2>Samstag 🏰</h2><p>Der große London-Tag. Volles Programm.</p></div></div>
+    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 11:00</div><h4>🥕 Borough Market</h4><p class="card-desc">Londons berühmtester Markt. Pastries, Kaffee, vegane Stände. <strong>Mallow Restaurant</strong> direkt daneben. ⭐ 4.8</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-Paradies</span><span class="tag tag-free">Markt kostenlos</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">11:00 – 13:30</div><h4>🏰 Tower of London</h4><p class="card-desc"><strong>Online vorbuchen!</strong> Ca. £30 p.P. Beefeater-Rundgang mitmachen. Tower Hill, EC3N 4AB</p><div class="card-tags"><span class="tag tag-paid">ca. £30</span><span class="tag tag-tip">Beefeater-Tour!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">13:30 – 14:30</div><h4>🌉 Tower Bridge & Southbank</h4><p class="card-desc">Zu Fuß rüber, Themse entlang, Shakespeare's Globe auf dem Weg.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
+    <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">15:00 – 16:30</div><h4>🌿 Sky Garden</h4><p class="card-desc">360°-Panorama, Eintritt GRATIS! <strong>Mind. 3 Wochen vorher buchen</strong> auf skygarden.london</p><div class="card-tags"><span class="tag tag-free">Gratis!</span><span class="tag tag-tip">3 Wochen vorher!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00</div><h4>🍄 Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining, Mushroom Ravioli mit Trüffel. ⭐ 4.8 – <strong>reservieren!</strong></p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-paid">££</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00</div><h4>🍺 Craft Beer Co.</h4><p class="card-desc">10+ Cask-Ales gleichzeitig. 168 High Holborn ⭐ 4.5</p><div class="card-tags"><span class="tag tag-beer">Craft Beer</span></div></div></div>
+  </div>
+  <div id="sd-sun" class="sub-day" style="display:none">
+    <div class="section-header"><div><h2>Sonntag 👑</h2><p>Royal vibes, grüne Parks und Pubs.</p></div></div>
+    <div class="card"><div class="card-stripe s-pink"></div><div class="card-inner"><div class="card-time t-pink">09:00 – 10:30</div><h4>☕ Mildreds Frühstück</h4><p class="card-desc">London-Legende seit 35 Jahren. White-Choc-Tiramisu bestellen! ⭐ 4.8 · 79 St Martin's Ln</p><div class="card-tags"><span class="tag tag-veg">🌿 100% Veg</span><span class="tag tag-tip">Tiramisu!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">11:00 – 12:30</div><h4>👑 Buckingham Palace</h4><p class="card-desc">Wachablösung Sonntags ca. 10 Uhr – <strong>früh da sein!</strong> Dann St. James's Park.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span><span class="tag tag-tip">Früh ankommen!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">13:00 – 14:30</div><h4>🏛️ Westminster & Big Ben</h4><p class="card-desc">Westminster Bridge, Big Ben, Houses of Parliament. London Eye von der Brücke kostenlos genießen.</p><div class="card-tags"><span class="tag tag-free">Von außen gratis</span></div></div></div>
+    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">15:00 – 17:00</div><h4>🎨 National Gallery</h4><p class="card-desc">Van Gogh, Rembrandt, Turner – Eintritt frei! Dann Covent Garden für Souvenirs.</p><div class="card-tags"><span class="tag tag-free">Eintritt frei!</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 19:00</div><h4>🍺 Old Shades Whitehall</h4><p class="card-desc">Ältestes Pub Londons, Shepherd's Pie, echte Ales. 37 Whitehall ⭐ 4.7</p><div class="card-tags"><span class="tag tag-beer">Traditional</span><span class="tag tag-veg">🌿 Veg. Optionen</span></div></div></div>
+    <div class="tip-box tip-box-teal" data-icon="☀️"><h4>Sonntags-Bonus</h4><p>Weniger Touristen, Parks voller Locals. <strong>Das ist auch London.</strong></p></div>
+  </div>
+  <div id="sd-mon" class="sub-day" style="display:none">
+    <div class="section-header"><div><h2>Montag 🛫</h2><p>Letzter Tag – noch einen draufsetzen.</p></div></div>
+    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 10:00</div><h4>🥐 Check-out</h4><p class="card-desc">Koffer abgeben (oft bis 18 Uhr möglich). <strong>Keine Hektik!</strong></p><div class="card-tags"><span class="tag tag-tip">Koffer lassen</span></div></div></div>
+    <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">10:00 – 12:30</div><h4>🛍️ Portobello Road, Notting Hill</h4><p class="card-desc">Vintage, bunte Pastell-Häuser. Schönster Spaziergang Londons.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">13:00 – 14:30</div><h4>🌿 Govinda's Soho</h4><p class="card-desc">Vegane indische Thali ca. £11, riesige Portionen. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget</span></div></div></div>
+    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Ab 15:00</div><h4>✈️ Richtung Heathrow</h4><p class="card-desc">Piccadilly Line, ca. 50 Min, ca. £6. <strong>2,5 Stunden vor Abflug!</strong></p><div class="card-tags"><span class="tag tag-tip">2,5h Puffer!</span></div></div></div>
+    <div class="tip-box tip-box-green" data-icon="🛫"><h4>Letzter Tipp</h4><p>Heathrow ist groß – zum Gate 20 Min einplanen. <strong>Lieber früher.</strong> 🍫</p></div>
+  </div>
+  <div id="sd-food" class="sub-day" style="display:none">
+    <div class="section-header"><div><h2>Essen & Trinken 🍽️</h2><p>Alle Spots der Crew.</p></div></div>
+    <div class="day-label"><div class="day-dot" style="background:var(--green)">🌿</div><div class="day-label-text"><h3>Vegetarische Highlights</h3><span>Alle veg-freundlich</span></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🧆 Bubala Soho</h4><p class="card-desc">Middle Eastern, 100% veg. <strong>Reservieren!</strong> ⭐ 4.6 · 15 Poland St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🍄 Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining. <strong>Reservieren!</strong> ⭐ 4.8 · Cathedral St SE1</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-paid">££</span></div></div></div>
+    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🥞 Mildreds</h4><p class="card-desc">London-Legende seit 35 Jahren. ⭐ 4.8–4.9 · Covent Garden & Victoria</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
+    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><h4>🙏 Govinda's Soho</h4><p class="card-desc">Vegane Thali ca. £10–11. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget</span></div></div></div>
+    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><h4>🥕 Borough Market</h4><p class="card-desc">Sa ab 9 Uhr. Hunderte Stände. ⭐ 4.6</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-freundlich</span><span class="tag tag-free">Eintritt frei</span></div></div></div>
+    <div class="day-label"><div class="day-dot" style="background:var(--red)">🍺</div><div class="day-label-text"><h3>Pubs & Bier</h3><span>The British Experience™</span></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 The Harp</h4><p class="card-desc">Beste Real Ales. ⭐ 4.6 · 47 Chandos Pl WC2N 4HS</p><div class="card-tags"><span class="tag tag-beer">Real Ale</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Craft Beer Co.</h4><p class="card-desc">10+ Cask-Ales. ⭐ 4.5 · 168 High Holborn</p><div class="card-tags"><span class="tag tag-beer">Craft Beer</span></div></div></div>
+    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Old Shades</h4><p class="card-desc">Shepherd's Pie. ⭐ 4.7 · 37 Whitehall</p><div class="card-tags"><span class="tag tag-beer">Traditional</span></div></div></div>
+    <div class="tip-box tip-box-red" data-icon="🍺"><h4>Pub-Survival-Guide</h4><p>🍺 Immer an der Bar bestellen!<br>💳 Kartenzahlung überall.<br>💧 „Tap water" = kostenlos fragen.<br>🪙 Trinkgeld optional.</p></div>
+  </div>
+  </div>
 </div>
 
-<!-- ══════════ FRIDAY ══════════════════════════════════════ -->
-<div id="friday" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Freitag ✈️</h2><p>Ankunft & erste London-Luft schnuppern. Soho ist euer Wohnzimmer.</p></div></div>
-  <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Nachmittag — Ankunft</div><h4>✈️ Check-in & Orientierung</h4><p class="card-desc">Hotel einschmeißen, Koffer weg, frisch machen. Heathrow → Piccadilly Line direkt ins Zentrum, ca. 50 Min, ca. £6. Am Automaten sofort eine <strong>Oyster Card</strong> kaufen!</p><div class="card-tags"><span class="tag tag-tip">Tipp: Oyster Card kaufen</span></div></div></div>
-  <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">17:00 – 19:00 Uhr</div><h4>🚶 Soho & Covent Garden erkunden</h4><p class="card-desc">Einfach laufen und staunen. <strong>Carnaby Street</strong>, Seven Dials, Covent Garden Marktplatz mit Straßenkünstlern.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00 – 21:00 Uhr</div><h4>🌿 Abendessen: Bubala Soho</h4><p class="card-desc">Vegetarische Middle-Eastern Sharing Plates – kleine Teller zum Teilen, unglaubliche Aromen, coole Atmosphäre. <strong>Unbedingt vorher reservieren!</strong><br>📍 15 Poland St, Soho · ⭐ 4.6</p><div class="card-tags"><span class="tag tag-veg">🌿 100% Vegetarisch</span><span class="tag tag-paid">££ Mittel</span><span class="tag tag-tip">Reservierung nötig!</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00 Uhr</div><h4>🍺 Erster Pub-Abend: The Harp</h4><p class="card-desc">Uriges Craft-Pub in Covent Garden, hervorragende Real Ales, echtes britisches Kneipen-Feeling.</p><div class="card-tags"><span class="tag tag-beer">🍺 Real Ale</span><span class="tag tag-tip">Immer an der Bar bestellen!</span></div></div></div>
-  <div class="tip-box tip-box-navy" data-icon="💡"><h4>Freitag-Tipp</h4><p>Freitagabend in Soho ist voll, laut und lebendig – und genau deshalb großartig. Keine strenge Agenda, einfach mitfließen. <strong>Das ist London auf Anhieb.</strong></p></div>
-</div>
-
-<!-- ══════════ SATURDAY ════════════════════════════════════ -->
-<div id="saturday" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Samstag 🏰</h2><p>Der große London-Tag. Volles Programm, volles Herz.</p></div></div>
-  <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 11:00 Uhr</div><h4>🥕 Borough Market Frühstück</h4><p class="card-desc">Londons berühmtester Lebensmittelmarkt. Frische Pastries, guter Kaffee, internationale Stände – ein vegetarisches Schlaraffenland. Direkt daneben: <strong>Mallow Restaurant</strong> für ein richtiges veganes Frühstück. ⭐ 4.8</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-Paradies</span><span class="tag tag-free">Markt kostenlos</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">11:00 – 13:30 Uhr</div><h4>🏰 Tower of London</h4><p class="card-desc">Kronjuwelen, Beefeaters, 1.000 Jahre Geschichte. <strong>Online vorbuchen</strong> spart Warteschlange und Geld (ca. £30/Person). Den Beefeater-Rundgang unbedingt mitmachen!</p><div class="card-tags"><span class="tag tag-paid">ca. £30 p.P.</span><span class="tag tag-tip">Beefeater-Tour mitmachen!</span></div></div></div>
-  <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">13:30 – 14:30 Uhr</div><h4>🌉 Tower Bridge & Southbank</h4><p class="card-desc">Zu Fuß rüber über die Tower Bridge, dann entlang der Themse. Shakespeare's Globe auf dem Weg – alles kostenlos.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-  <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">15:00 – 16:30 Uhr</div><h4>🌿 Sky Garden – kostenlos!</h4><p class="card-desc">Botanischer Garten hoch oben im „Walkie-Talkie"-Gebäude. 360°-Panorama über ganz London. Aber: <strong>Mind. 3 Wochen vorher buchen</strong> auf skygarden.london.</p><div class="card-tags"><span class="tag tag-free">Eintritt frei!</span><span class="tag tag-tip">3 Wochen vorher buchen!</span></div></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00 Uhr</div><h4>🍽️ Abendessen: Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining direkt am Markt. Mushroom Ravioli mit Trüffel, fantastische Cocktailkarte. ⭐ 4.8 – <strong>reservieren!</strong></p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan/Vegetarisch</span><span class="tag tag-paid">££ Mittel</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00 Uhr</div><h4>🍺 Craft Beer Co. Covent Garden</h4><p class="card-desc">10+ Cask-Ales gleichzeitig am Hahn. Riesige Auswahl, ein Kellerbereich der überrascht. ⭐ 4.5</p><div class="card-tags"><span class="tag tag-beer">🍺 Craft Beer</span></div></div></div>
-</div>
-
-<!-- ══════════ SUNDAY ══════════════════════════════════════ -->
-<div id="sunday" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Sonntag 👑</h2><p>Royal vibes, grüne Parks und Pubs – das entspannte London.</p></div></div>
-  <div class="card"><div class="card-stripe s-pink"></div><div class="card-inner"><div class="card-time t-pink">09:00 – 10:30 Uhr</div><h4>☕ Frühstück: Mildreds</h4><p class="card-desc">Londons beliebtestes Vegetarier-Café seit 35 Jahren. Scrambled Tofu, French Toast, riesige Portionen. ⭐ 4.8–4.9</p><div class="card-tags"><span class="tag tag-veg">🌿 100% Vegetarisch</span><span class="tag tag-tip">White-Choc-Tiramisu bestellen!</span></div></div></div>
-  <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">11:00 – 12:30 Uhr</div><h4>👑 Buckingham Palace & St. James's Park</h4><p class="card-desc">Wachablösung live erleben (Sonntags ca. 10 Uhr – <strong>früh da sein!</strong>), dann durch den St. James's Park schlendern.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span><span class="tag tag-tip">Früh ankommen!</span></div></div></div>
-  <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">13:00 – 14:30 Uhr</div><h4>🏛️ Westminster & Big Ben</h4><p class="card-desc">Westminster Bridge, Big Ben, Houses of Parliament – klassisches London-Pflichtprogramm. London Eye von der Brücke aus kostenlos genießen.</p><div class="card-tags"><span class="tag tag-free">Von außen kostenlos</span></div></div></div>
-  <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">15:00 – 17:00 Uhr</div><h4>🛍️ Covent Garden & National Gallery</h4><p class="card-desc">Covent Garden Market für Souvenirs. Danach kurz in die <strong>National Gallery</strong> am Trafalgar Square – Van Gogh, Rembrandt, Turner. Eintritt frei!</p><div class="card-tags"><span class="tag tag-free">National Gallery gratis</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 19:00 Uhr</div><h4>🍺 Abschluss-Pub: Old Shades Whitehall</h4><p class="card-desc">Eines der ältesten Pubs Londons, direkt zwischen Parlament und Trafalgar Square. Shepherd's Pie, echte Ales. ⭐ 4.7</p><div class="card-tags"><span class="tag tag-beer">🍺 Traditional Pub</span><span class="tag tag-veg">🌿 Veg. Optionen</span></div></div></div>
-  <div class="tip-box tip-box-teal" data-icon="☀️"><h4>Sonntags-Bonus</h4><p>Sonntag ist London auf entspannt. Weniger Touristen, Parks voller Locals. <strong>Das ist auch London.</strong></p></div>
-</div>
-
-<!-- ══════════ MONDAY ══════════════════════════════════════ -->
-<div id="monday" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Montag 🛫</h2><p>Letzter Tag – noch einen draufsetzen, bevor's zum Flieger geht.</p></div></div>
-  <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 10:00 Uhr</div><h4>🥐 Hotel-Frühstück & Check-out</h4><p class="card-desc">Koffer abgeben (oft bis 18 Uhr möglich) und nochmal raus. <strong>Keine Hektik</strong> – London genießen bis zum letzten Moment.</p><div class="card-tags"><span class="tag tag-tip">Koffer lassen – später abholen</span></div></div></div>
-  <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">10:00 – 12:30 Uhr</div><h4>🛍️ Portobello Road, Notting Hill</h4><p class="card-desc">Vintage, Antiquitäten, bunte Pastell-Häuser, Cafés. Die berühmten Häuser fotografieren – einer der schönsten Spaziergänge Londons.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">13:00 – 14:30 Uhr</div><h4>🌿 Letztes Mittagessen: Govinda's Soho</h4><p class="card-desc">Vegane indische Thali für ca. £11 – riesige Portionen, liebevolles Ambiente, absoluter Kult-Laden in Soho. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget-freundlich</span></div></div></div>
-  <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Ab 15:00 Uhr</div><h4>✈️ Richtung Heathrow</h4><p class="card-desc">Koffer holen, Piccadilly Line ab Zentrum → Heathrow ca. 50 Min, ca. £6. <strong>2,5 Stunden vor Abflug</strong> einplanen.</p><div class="card-tags"><span class="tag tag-tip">2,5h vor Abflug am Flughafen</span></div></div></div>
-  <div class="tip-box tip-box-green" data-icon="🛫"><h4>Letzter Tipp</h4><p>Heathrow ist groß – von der U-Bahn zum Gate können 20 Minuten vergehen. <strong>Lieber früher als später.</strong> 🍫</p></div>
-</div>
-
-<!-- ══════════ FOOD ════════════════════════════════════════ -->
-<div id="food" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Essen & Trinken 🍽️</h2><p>Alle Spots. Alex & Pinon vegetarisch – London ist ein absolutes Veg-Paradies!</p></div></div>
-  <div class="day-label"><div class="day-dot" style="background:var(--green)">🌿</div><div class="day-label-text"><h3>Vegetarische Top-Picks</h3><span>Alle veg- und vegan-freundlich</span></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🧆 Bubala Soho</h4><p class="card-desc">Middle Eastern Sharing Plates, 100% vegetarisch. Laffa-Brot, Baba Ganoush, Mango Hummus. <strong>Reservieren!</strong> ⭐ 4.6 · 15 Poland St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🍄 Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining am Markt, Mushroom Ravioli mit Trüffel, fantastische Cocktails. <strong>Reservieren!</strong> ⭐ 4.8 · Cathedral St SE1</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-paid">££</span></div></div></div>
-  <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🥞 Mildreds (Covent Garden / Victoria)</h4><p class="card-desc">London-Legende seit 35 Jahren. Bestes veganes Frühstück der Stadt. ⭐ 4.8–4.9</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
-  <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><h4>🙏 Govinda's Soho – Budget-Geheimtipp</h4><p class="card-desc">Vegane indische Thali für ca. £10–11, riesige Portionen. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget</span></div></div></div>
-  <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><h4>🥕 Borough Market</h4><p class="card-desc">Frühstücks-Pflichtprogramm am Samstag. Hunderte Stände, Mushroom Risotto, Schokoladen-Erdbeeren. ⭐ 4.6 · Sa ab 9 Uhr</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-freundlich</span><span class="tag tag-free">Markt kostenlos</span></div></div></div>
-  <div class="day-label"><div class="day-dot" style="background:var(--red)">🍺</div><div class="day-label-text"><h3>Pubs & Bier</h3><span>The British Experience™</span></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 The Harp – Covent Garden</h4><p class="card-desc">Kleines uriges Pub, beste Real Ales nahe Trafalgar Square. ⭐ 4.6 · 47 Chandos Pl</p><div class="card-tags"><span class="tag tag-beer">Real Ale</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Craft Beer Co. Covent Garden</h4><p class="card-desc">10+ Cask-Ales gleichzeitig. Riesige Auswahl, Kellerbereich wie aus dem Nichts. ⭐ 4.5 · 168 High Holborn</p><div class="card-tags"><span class="tag tag-beer">Craft Beer</span></div></div></div>
-  <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Old Shades – Whitehall</h4><p class="card-desc">Historisches Pub neben dem Parlament, Shepherd's Pie, stimmungsvolle Atmosphäre. ⭐ 4.7 · 37 Whitehall</p><div class="card-tags"><span class="tag tag-beer">Traditional</span><span class="tag tag-veg">🌿 Veg. Essen</span></div></div></div>
-  <div class="tip-box tip-box-red" data-icon="🍺"><h4>Pub-Survival-Guide</h4><p>🍺 Immer an der Bar bestellen!<br>💳 Fast überall Kartenzahlung.<br>💧 „Tap water" = kostenloses Leitungswasser.<br>🪙 Trinkgeld optional.</p></div>
-</div>
-
-<!-- ══════════ TIPS ════════════════════════════════════════ -->
-<div id="tips" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Insider-Tipps 💬</h2><p>Das Wichtigste kompakt – damit nichts schiefläuft.</p></div></div>
-  <div class="tip-box tip-box-navy" data-icon="🚇"><h4>Transport</h4><p><strong>Oyster Card</strong> oder kontaktloses Zahlen ans Lesegerät halten. Daily Cap Zone 1–2: ca. <strong>£8</strong> – egal wie oft ihr fahrt!</p></div>
-  <ul class="checklist">
-    <li><div class="chk" style="background:var(--purple)"></div><span><strong>Sky Garden vorbuchen</strong> – kostenlos, aber 3 Wochen Vorlauf nötig → skygarden.london</span></li>
-    <li><div class="chk" style="background:var(--red)"></div><span><strong>Tower of London vorbuchen</strong> – spart Warteschlange & Geld → hrp.org.uk</span></li>
-    <li><div class="chk" style="background:var(--green)"></div><span><strong>Bubala & Mallow reservieren</strong> – sehr beliebt, spontan oft ausgebucht!</span></li>
-    <li><div class="chk" style="background:var(--teal)"></div><span><strong>Oyster Card</strong> am Flughafen kaufen oder einfach Bankkarte nutzen.</span></li>
-    <li><div class="chk" style="background:var(--gold)"></div><span><strong>Borough Market</strong> – Samstags ab 9 Uhr, dann noch halbwegs leer.</span></li>
-    <li><div class="chk" style="background:var(--navy)"></div><span><strong>Wechselkurs</strong> – £1 ≈ €1.20. London ist teuer, Pubs & Märkte halten sich.</span></li>
-    <li><div class="chk" style="background:var(--pink)"></div><span><strong>Wetter</strong> – immer eine Jacke einpacken. <em>Immer.</em></span></li>
-    <li><div class="chk" style="background:var(--teal)"></div><span><strong>Buckingham Wachablösung</strong> – Sonntags ca. 10 Uhr, früh ankommen!</span></li>
-  </ul>
-  <div class="tip-box tip-box-purple" data-icon="😄" style="margin-top:20px"><h4>Das wichtigste Wort Londons</h4><p><strong>"Cheers"</strong> – bedeutet gleichzeitig Danke, Prost, Tschüss und Entschuldigung. Einfach mitmachen. 🍺</p></div>
-  <p class="footer-note">Made with ❤️ für <strong>Alex, Steffi & Pinon</strong><br>Have a bloody good time! 🇬🇧</p>
-</div>
-
-<!-- ══════════ PLANER (GitHub-synced) ═════════════════════ -->
-<div id="planner" class="page">
+<!-- PLANNER -->
+<div class="view" id="view-planner"><div class="content">
   <div class="section-header">
-    <div class="section-header-txt">
-      <h2>Planer 📅</h2>
-      <p>Eigene Tage & Aktivitäten hinzufügen – wird automatisch gespeichert.</p>
+    <div><h2>Planer ✏️</h2><p>Eigene Tage – automatisch gespeichert.</p></div>
+    <button class="btn btn-red btn-sm" onclick="openDayModal()">+ Tag</button>
+  </div>
+  <div class="export-bar">
+    <span class="export-bar-title">📤 Google Maps Export</span>
+    <p class="export-bar-hint">KML-Datei herunterladen → Google Maps öffnen → „Meine Karten" → „Importieren" → Datei auswählen.</p>
+    <div class="export-btns">
+      <button class="export-btn export-btn-kml" onclick="exportKML()">⬇️ KML herunterladen</button>
+      <button class="export-btn export-btn-csv" onclick="exportCSV()">⬇️ CSV herunterladen</button>
     </div>
-    <button class="btn btn-red" onclick="openDayModal()">+ Tag hinzufügen</button>
   </div>
   <div id="days-list"></div>
-</div>
+</div></div>
 
-<!-- ══════════ MAP VIEW ════════════════════════════════════ -->
-<div id="mapview" class="page">
-  <div class="section-header"><div class="section-header-txt"><h2>Alle Orte 🗺️</h2><p>Alle Planer-Aktivitäten auf einen Blick.</p></div></div>
+<!-- MAP VIEW -->
+<div class="view" id="view-mapview"><div class="content">
+  <div class="section-header"><div><h2>Alle Orte 📍</h2><p>Alle Planer-Aktivitäten auf der Karte.</p></div></div>
   <div id="ov-map"></div>
   <div class="map-legend" id="map-legend"></div>
-</div>
+</div></div>
 
-</div><!-- /content -->
+<!-- TIPS -->
+<div class="view" id="view-tips"><div class="content">
+  <div class="section-header"><div><h2>Insider-Tipps 💬</h2><p>Damit nichts schiefläuft.</p></div></div>
+  <div class="tip-box tip-box-navy" data-icon="🚇"><h4>Transport</h4><p><strong>Oyster Card</strong> oder kontaktlose Karte. Daily Cap Zone 1–2: ca. <strong>£8</strong> – egal wie oft ihr fahrt!</p></div>
+  <ul class="checklist">
+    <li><div class="chk" style="background:var(--purple)"></div><span><strong>Sky Garden vorbuchen</strong> – kostenlos, 3 Wochen Vorlauf → skygarden.london</span></li>
+    <li><div class="chk" style="background:var(--red)"></div><span><strong>Tower of London vorbuchen</strong> – Warteschlange & Geld sparen → hrp.org.uk</span></li>
+    <li><div class="chk" style="background:var(--green)"></div><span><strong>Bubala & Mallow reservieren</strong> – spontan oft ausgebucht!</span></li>
+    <li><div class="chk" style="background:var(--teal)"></div><span><strong>Oyster Card</strong> am Flughafen oder einfach Bankkarte nutzen.</span></li>
+    <li><div class="chk" style="background:var(--gold)"></div><span><strong>Borough Market</strong> – Samstags ab 9 Uhr.</span></li>
+    <li><div class="chk" style="background:var(--navy)"></div><span><strong>Wechselkurs</strong> – £1 ≈ €1.20. London ist teuer.</span></li>
+    <li><div class="chk" style="background:var(--pink)"></div><span><strong>Wetter</strong> – immer eine Jacke. <em>Immer.</em></span></li>
+    <li><div class="chk" style="background:var(--teal)"></div><span><strong>Wachablösung</strong> – Sonntags ca. 10 Uhr, früh ankommen!</span></li>
+  </ul>
+  <div class="tip-box tip-box-purple" data-icon="😄"><h4>Das wichtigste Wort</h4><p><strong>"Cheers"</strong> – Danke, Prost, Tschüss und Entschuldigung in einem. Einfach mitmachen. 🍺</p></div>
+  <p class="footer-note">Made with ❤️ für <strong>Alex, Steffi & Pinon</strong><br>Have a bloody good time! 🇬🇧</p>
+</div></div>
 
+</div><!-- /app-body -->
 <div id="toast"></div>
 
-<!-- ══════════ MODALS ═════════════════════════════════════ -->
-
-<!-- Day Modal -->
+<!-- DAY MODAL -->
 <div class="overlay" id="m-day">
   <div class="modal">
-    <h2 id="m-day-h">Tag hinzufügen</h2>
-    <div class="fg"><label>Titel</label><input id="f-dt" type="text" placeholder="z.B. Ankunft & Westminster"></div>
-    <div class="fg"><label>Datum</label><input id="f-dd" type="date"></div>
-    <div class="fg"><label>Notiz (optional)</label><textarea id="f-dn" rows="2" placeholder="Kurze Info zum Tag..."></textarea></div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal('m-day')">Abbrechen</button>
-      <button class="btn btn-navy" onclick="saveDay()">Speichern</button>
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h2 id="m-day-h">Tag hinzufügen</h2></div>
+    <div class="modal-body">
+      <div class="fg"><label>Titel</label><input id="f-dt" type="text" placeholder="z.B. Ankunft & Westminster"></div>
+      <div class="fg"><label>Datum</label><input id="f-dd" type="date"></div>
+      <div class="fg"><label>Notiz (optional)</label><textarea id="f-dn" rows="2" placeholder="Kurze Info zum Tag..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('m-day')">Abbrechen</button>
+      <button class="btn btn-navy btn-sm" onclick="saveDay()">Speichern</button>
     </div>
   </div>
 </div>
 
-<!-- Place Modal -->
+<!-- PLACE MODAL -->
 <div class="overlay" id="m-place">
   <div class="modal">
-    <h2 id="m-place-h">Aktivität hinzufügen</h2>
-
-    <!-- Google Places Search -->
-    <div class="fg">
-      <label>🔍 Ort suchen (Google Maps)</label>
-      <div class="places-search-wrap">
-        <input id="f-search" type="text" placeholder="z.B. Tower of London eingeben…" autocomplete="off"
-               oninput="onPlaceSearch(this.value)" onfocus="onPlaceSearch(this.value)">
-        <div class="places-dropdown" id="places-dropdown">
-          <div class="places-loading">Tippe um zu suchen…</div>
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h2 id="m-place-h">Aktivität hinzufügen</h2></div>
+    <div class="modal-body">
+      <!-- NAME FIELD WITH LIVE AUTOCOMPLETE -->
+      <div class="fg">
+        <label>Name des Ortes</label>
+        <div class="ac-wrap">
+          <input id="f-pn" type="text"
+                 placeholder="z.B. Tower of London eingeben…"
+                 autocomplete="off" autocorrect="off" spellcheck="false"
+                 oninput="onAcInput(this.value)"
+                 onfocus="if(this.value.length>1)onAcInput(this.value)">
+          <div class="ac-drop" id="ac-drop"></div>
         </div>
       </div>
-    </div>
-
-    <div class="fg"><label>Name</label><input id="f-pn" type="text" placeholder="Name der Aktivität"></div>
-    <div class="fg"><label>Adresse</label><input id="f-pa" type="text" placeholder="Adresse (wird automatisch befüllt)"></div>
-    <div class="row2">
-      <div class="fg"><label>Von</label><input id="f-pf" type="time"></div>
-      <div class="fg"><label>Bis</label><input id="f-pt" type="time"></div>
-    </div>
-    <div class="fg">
-      <label>Kategorie</label>
-      <div class="chips" id="chips-cat">
-        <div class="chip on" data-v="🏛️ Sehenswürdigkeit">🏛️ Sehenswürdigkeit</div>
-        <div class="chip" data-v="🍽️ Restaurant">🍽️ Restaurant</div>
-        <div class="chip" data-v="🍺 Pub">🍺 Pub</div>
-        <div class="chip" data-v="🛍️ Shopping">🛍️ Shopping</div>
-        <div class="chip" data-v="🌿 Park">🌿 Park</div>
-        <div class="chip" data-v="🎭 Kultur">🎭 Kultur</div>
-        <div class="chip" data-v="🏨 Hotel">🏨 Hotel</div>
-        <div class="chip" data-v="🚇 Transport">🚇 Transport</div>
+      <div class="fg"><label>Adresse</label><input id="f-pa" type="text" placeholder="Wird automatisch befüllt…" autocomplete="off"></div>
+      <div class="row2">
+        <div class="fg"><label>Von</label><input id="f-pf" type="time"></div>
+        <div class="fg"><label>Bis</label><input id="f-pt" type="time"></div>
       </div>
+      <div class="fg">
+        <label>Kategorie</label>
+        <div class="chips" id="chips-cat">
+          <div class="chip on" data-v="🏛️ Sehenswürdigkeit">🏛️ Sehensw.</div>
+          <div class="chip" data-v="🍽️ Restaurant">🍽️ Restaurant</div>
+          <div class="chip" data-v="🍺 Pub">🍺 Pub</div>
+          <div class="chip" data-v="🛍️ Shopping">🛍️ Shopping</div>
+          <div class="chip" data-v="🌿 Park">🌿 Park</div>
+          <div class="chip" data-v="🎭 Kultur">🎭 Kultur</div>
+          <div class="chip" data-v="🏨 Hotel">🏨 Hotel</div>
+          <div class="chip" data-v="🚇 Transport">🚇 Transport</div>
+        </div>
+      </div>
+      <div class="fg"><label>Notiz (optional)</label><input id="f-pnote" type="text" placeholder="Tickets, Reservierung..."></div>
     </div>
-    <div class="fg"><label>Notiz (optional)</label><input id="f-pnote" type="text" placeholder="Tickets buchen, Reservierung..."></div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal('m-place')">Abbrechen</button>
-      <button class="btn btn-navy" id="btn-sp" onclick="savePlace()">Speichern</button>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('m-place')">Abbrechen</button>
+      <button class="btn btn-navy btn-sm" id="btn-sp" onclick="savePlace()">Speichern</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ SCRIPT ═════════════════════════════════════ -->
 <script>
-// ╔══════════════════════════════════════════════════════╗
-// ║  KONFIGURATION — hier anpassen!                      ║
-// ╚══════════════════════════════════════════════════════╝
-const CONFIG = {
-  GITHUB_USER: 'Hulkoboom',
-  GITHUB_REPO: 'London-trip',
-  DATA_FILE:   'data.json',
-  PIN:         '258456'
-};
+const CONFIG={GITHUB_USER:'Hulkoboom',GITHUB_REPO:'London-trip',DATA_FILE:'data.json',PIN:'258456'};
+let token=null,state={days:[],profiles:[]},fileSha=null,saveTimer=null;
+const ovMapState={init:false,map:null},dayMaps={};
 
-let token = null;
-let state = { days: [], profiles: [] };
-let fileSha = null;
-let saveTimer = null;
-const ovMapState = { init: false, map: null };
-const dayMaps = {};
+// DEFAULT PLAN
+const DEFAULT_PLAN={days:[
+  {id:"day-fri",title:"Freitag – Ankunft & Soho-Abend",date:"",note:"Ankommen, Oyster Card kaufen.",places:[
+    {id:"fri-1",name:"Heathrow → Hotel (Piccadilly Line)",address:"Heathrow Airport, London TW6",from:"",to:"",note:"Ca. 50 Min, ca. £6. Oyster Card kaufen!",category:"🚇 Transport",lat:51.4700,lng:-0.4543},
+    {id:"fri-2",name:"Soho & Covent Garden erkunden",address:"Carnaby Street, London W1F",from:"17:00",to:"19:00",note:"Carnaby Street, Seven Dials, Covent Garden.",category:"🏛️ Sehenswürdigkeit",lat:51.5137,lng:-0.1410},
+    {id:"fri-3",name:"Abendessen: Bubala Soho",address:"15 Poland St, London W1F 8PR",from:"19:00",to:"21:00",note:"100% vegetarisch – Reservierung nötig! ⭐ 4.6",category:"🍽️ Restaurant",lat:51.5142,lng:-0.1346},
+    {id:"fri-4",name:"Pub-Abend: The Harp",address:"47 Chandos Pl, London WC2N 4HS",from:"21:00",to:"",note:"Real Ales. Immer an der Bar bestellen!",category:"🍺 Pub",lat:51.5088,lng:-0.1249}
+  ]},
+  {id:"day-sat",title:"Samstag – Big London Day",date:"",note:"Borough Market · Tower · Southbank · Sky Garden",places:[
+    {id:"sat-1",name:"Borough Market Frühstück",address:"8 Southwark St, London SE1 1TL",from:"09:00",to:"11:00",note:"Mallow direkt daneben ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5055,lng:-0.0910},
+    {id:"sat-2",name:"Tower of London",address:"Tower Hill, London EC3N 4AB",from:"11:00",to:"13:30",note:"Online vorbuchen! Ca. £30 p.P.",category:"🏛️ Sehenswürdigkeit",lat:51.5081,lng:-0.0759},
+    {id:"sat-3",name:"Tower Bridge & Southbank",address:"Tower Bridge Rd, London SE1 2UP",from:"13:30",to:"14:30",note:"Zu Fuß, Themse entlang.",category:"🏛️ Sehenswürdigkeit",lat:51.5055,lng:-0.0754},
+    {id:"sat-4",name:"Sky Garden",address:"20 Fenchurch St, London EC3M 8AF",from:"15:00",to:"16:30",note:"GRATIS – 3 Wochen vorher buchen!",category:"🌿 Park",lat:51.5111,lng:-0.0834},
+    {id:"sat-5",name:"Abendessen: Mallow Borough Market",address:"Cathedral St, London SE1 9AL",from:"19:00",to:"",note:"Veganes Fine Dining. Reservieren! ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5060,lng:-0.0912},
+    {id:"sat-6",name:"Pub: Craft Beer Co.",address:"168 High Holborn, London WC1V 7AA",from:"21:00",to:"",note:"10+ Cask-Ales. ⭐ 4.5",category:"🍺 Pub",lat:51.5172,lng:-0.1189}
+  ]},
+  {id:"day-sun",title:"Sonntag – Royal & Entspannt",date:"",note:"Buckingham · Westminster · National Gallery · Pub",places:[
+    {id:"sun-1",name:"Frühstück: Mildreds",address:"79 St Martin's Ln, London WC2N 4AA",from:"09:00",to:"10:30",note:"White-Choc-Tiramisu! ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5104,lng:-0.1267},
+    {id:"sun-2",name:"Buckingham Palace & St. James's Park",address:"Westminster, London SW1A 1AA",from:"11:00",to:"12:30",note:"Wachablösung ca. 10 Uhr – früh da sein!",category:"🏛️ Sehenswürdigkeit",lat:51.5014,lng:-0.1419},
+    {id:"sun-3",name:"Westminster & Big Ben",address:"Westminster Bridge, London SW1A 2JH",from:"13:00",to:"14:30",note:"London Eye von der Brücke kostenlos.",category:"🏛️ Sehenswürdigkeit",lat:51.5007,lng:-0.1246},
+    {id:"sun-4",name:"National Gallery & Covent Garden",address:"Trafalgar Square, London WC2N 5DN",from:"15:00",to:"17:00",note:"Van Gogh, Rembrandt – Eintritt frei!",category:"🎭 Kultur",lat:51.5089,lng:-0.1283},
+    {id:"sun-5",name:"Pub: Old Shades Whitehall",address:"37 Whitehall, London SW1A 2BX",from:"19:00",to:"",note:"Shepherd's Pie, echte Ales. ⭐ 4.7",category:"🍺 Pub",lat:51.5046,lng:-0.1259}
+  ]},
+  {id:"day-mon",title:"Montag – Letzter Bissen & Heimflug",date:"",note:"Notting Hill · Govinda's · Heathrow",places:[
+    {id:"mon-1",name:"Hotel Check-out",address:"Leicester Square, London WC2H",from:"09:00",to:"10:00",note:"Koffer bis 18 Uhr lassen möglich.",category:"🏨 Hotel",lat:51.5113,lng:-0.1282},
+    {id:"mon-2",name:"Portobello Road & Notting Hill",address:"Portobello Rd, London W11",from:"10:00",to:"12:30",note:"Vintage, bunte Häuser.",category:"🛍️ Shopping",lat:51.5172,lng:-0.2042},
+    {id:"mon-3",name:"Mittagessen: Govinda's Soho",address:"9 Soho St, London W1D 3DL",from:"13:00",to:"14:30",note:"Vegane Thali ca. £11. ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5155,lng:-0.1318},
+    {id:"mon-4",name:"Heathrow Abflug",address:"Heathrow Airport, London TW6",from:"15:00",to:"",note:"2,5 Stunden vor Abflug!",category:"🚇 Transport",lat:51.4700,lng:-0.4543}
+  ]}
+],profiles:[]};
 
-// ── PLACES SEARCH (Nominatim + autocomplete) ─────────────
-let searchTimer = null;
-let currentPlaceLat = 51.5074, currentPlaceLng = -0.1278;
+// ── AUTOCOMPLETE ──────────────────────────────────────────
+let acTimer=null,currentLat=51.5074,currentLng=-0.1278,acSelected=false;
+const TYPE_CAT={restaurant:'🍽️ Restaurant',cafe:'🍽️ Restaurant',fast_food:'🍽️ Restaurant',bar:'🍺 Pub',pub:'🍺 Pub',shop:'🛍️ Shopping',retail:'🛍️ Shopping',clothes:'🛍️ Shopping',park:'🌿 Park',garden:'🌿 Park',museum:'🎭 Kultur',theatre:'🎭 Kultur',cinema:'🎭 Kultur',gallery:'🎭 Kultur',hotel:'🏨 Hotel',hostel:'🏨 Hotel',guest_house:'🏨 Hotel',station:'🚇 Transport',subway:'🚇 Transport',airport:'🚇 Transport'};
+function getCat(t=''){for(const k of Object.keys(TYPE_CAT)){if(t.toLowerCase().includes(k))return TYPE_CAT[k];}return'🏛️ Sehenswürdigkeit';}
+function getSugIco(t=''){const m={restaurant:'🍽️',cafe:'☕',bar:'🍺',pub:'🍺',hotel:'🏨',museum:'🏛️',park:'🌿',shop:'🛍️',cinema:'🎬',theatre:'🎭',station:'🚇',subway:'🚇',church:'⛪',tourist_attraction:'🏛️',historic:'🏛️',gallery:'🎨',bridge:'🌉',garden:'🌿',airport:'✈️'};for(const k of Object.keys(m)){if(t.toLowerCase().includes(k))return m[k];}return'📍';}
 
-const CAT_TYPES = {
-  'restaurant': '🍽️ Restaurant', 'cafe': '🍽️ Restaurant', 'food': '🍽️ Restaurant',
-  'bar': '🍺 Pub', 'pub': '🍺 Pub', 'night_club': '🍺 Pub',
-  'store': '🛍️ Shopping', 'shopping_mall': '🛍️ Shopping',
-  'park': '🌿 Park', 'garden': '🌿 Park',
-  'museum': '🎭 Kultur', 'art_gallery': '🎭 Kultur', 'theater': '🎭 Kultur',
-  'lodging': '🏨 Hotel', 'hotel': '🏨 Hotel',
-  'subway_station': '🚇 Transport', 'train_station': '🚇 Transport', 'transit': '🚇 Transport',
-};
-
-function getCatFromTypes(types=[]) {
-  for(const t of types){ if(CAT_TYPES[t]) return CAT_TYPES[t]; }
-  return '🏛️ Sehenswürdigkeit';
-}
-
-function onPlaceSearch(val) {
-  clearTimeout(searchTimer);
-  const dd = document.getElementById('places-dropdown');
-  if(!val || val.length < 2){ dd.classList.remove('open'); return; }
-  dd.innerHTML = '<div class="places-loading">⏳ Suche läuft…</div>';
+function onAcInput(val){
+  acSelected=false;
+  clearTimeout(acTimer);
+  const dd=document.getElementById('ac-drop');
+  if(!val||val.length<2){dd.classList.remove('open');dd.innerHTML='';return;}
+  dd.innerHTML='<div class="ac-loading">⏳ Suche…</div>';
   dd.classList.add('open');
-  searchTimer = setTimeout(()=> searchPlaces(val), 400);
+  acTimer=setTimeout(()=>doAcSearch(val),380);
 }
 
-async function searchPlaces(q) {
-  const dd = document.getElementById('places-dropdown');
-  try {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q+', London, UK')}&format=json&limit=6&addressdetails=1&extratags=1`;
-    const res = await fetch(url, { headers:{ 'Accept-Language':'de' }});
-    const data = await res.json();
-    if(!data.length){ dd.innerHTML='<div class="places-loading">Keine Ergebnisse – andere Schreibweise versuchen.</div><div class="places-powered">🔍 OpenStreetMap</div>'; return; }
-    dd.innerHTML = data.map((p,i)=>{
-      const name = p.namedetails?.name || p.display_name.split(',')[0];
-      const addr = p.display_name;
-      const icon = getSugIcon(p.type||p.class||'');
-      return `<div class="places-suggestion" onclick="selectPlace(${i})" data-idx="${i}"
-        data-name="${escAttr(name)}" data-addr="${escAttr(addr)}"
-        data-lat="${p.lat}" data-lng="${p.lon}"
-        data-type="${p.type||p.class||''}">
-        <div class="places-sug-icon">${icon}</div>
-        <div class="places-sug-info">
-          <div class="places-sug-name">${esc(name)}</div>
-          <div class="places-sug-addr">${esc(addr)}</div>
-        </div>
+async function doAcSearch(q){
+  const dd=document.getElementById('ac-drop');
+  try{
+    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q+', London')}&format=json&limit=7&addressdetails=1&namedetails=1&extratags=1&accept-language=de`;
+    const res=await fetch(url);
+    const data=await res.json();
+    if(!data.length){dd.innerHTML='<div class="ac-loading">Keine Ergebnisse – andere Schreibweise?</div><div class="ac-footer">OpenStreetMap</div>';return;}
+    dd.innerHTML=data.map((p,i)=>{
+      const name=p.namedetails?.name||p.display_name.split(',')[0];
+      const addrParts=p.display_name.split(',');
+      const addr=addrParts.slice(0,Math.min(3,addrParts.length)).join(',').trim();
+      const ico=getSugIco(p.type||p.class||'');
+      return `<div class="ac-item" ontouchstart="" onclick="selectAc(${i})" data-idx="${i}"
+        data-name="${escAttr(name)}" data-addr="${escAttr(p.display_name)}"
+        data-lat="${p.lat}" data-lng="${p.lon}" data-type="${escAttr(p.type||p.class||'')}">
+        <div class="ac-ico">${ico}</div>
+        <div style="flex:1;min-width:0"><div class="ac-name">${esc(name)}</div><div class="ac-addr">${esc(addr)}</div></div>
       </div>`;
-    }).join('') + '<div class="places-powered">🔍 OpenStreetMap / Nominatim</div>';
-  } catch(e) {
-    dd.innerHTML = '<div class="places-loading">Fehler bei der Suche.</div>';
+    }).join('')+'<div class="ac-footer">🔍 OpenStreetMap / Nominatim</div>';
+  }catch(e){
+    dd.innerHTML='<div class="ac-loading">Fehler – Verbindung prüfen.</div>';
   }
 }
 
-function getSugIcon(type) {
-  const map = {restaurant:'🍽️',cafe:'☕',bar:'🍺',pub:'🍺',hotel:'🏨',museum:'🏛️',park:'🌿',
-    shop:'🛍️',supermarket:'🛒',cinema:'🎬',theatre:'🎭',station:'🚇',subway:'🚇',
-    church:'⛪',hospital:'🏥',school:'🏫',university:'🎓',tourist_attraction:'🏛️',
-    historic:'🏛️',attraction:'🏛️',gallery:'🎨',bridge:'🌉',garden:'🌿'};
-  for(const k of Object.keys(map)){ if(type.includes(k)) return map[k]; }
-  return '📍';
+function selectAc(idx){
+  const el=document.querySelector(`.ac-item[data-idx="${idx}"]`);
+  if(!el)return;
+  acSelected=true;
+  const name=el.dataset.name;
+  const shortAddr=el.dataset.addr.split(',').slice(0,3).join(',').trim();
+  currentLat=parseFloat(el.dataset.lat);
+  currentLng=parseFloat(el.dataset.lng);
+  document.getElementById('f-pn').value=name;
+  document.getElementById('f-pa').value=shortAddr;
+  setChip('chips-cat',getCat(el.dataset.type));
+  document.getElementById('ac-drop').classList.remove('open');
+  toast('📍 '+name+' übernommen!');
 }
 
-function selectPlace(idx) {
-  const el = document.querySelector(`.places-suggestion[data-idx="${idx}"]`);
-  if(!el) return;
-  const name = el.dataset.name;
-  const addr = el.dataset.addr;
-  const lat  = parseFloat(el.dataset.lat);
-  const lng  = parseFloat(el.dataset.lng);
-  const type = el.dataset.type;
+document.addEventListener('touchstart',e=>{if(!e.target.closest('#m-place'))document.getElementById('ac-drop')?.classList.remove('open');},{passive:true});
+document.addEventListener('click',e=>{if(!e.target.closest('#m-place'))document.getElementById('ac-drop')?.classList.remove('open');});
 
-  document.getElementById('f-pn').value = name;
-  document.getElementById('f-pa').value = addr.split(',').slice(0,3).join(',').trim();
-  document.getElementById('f-search').value = name;
-  currentPlaceLat = lat;
-  currentPlaceLng = lng;
+// CHIPS
+function initChips(id,multi=false){document.querySelectorAll(`#${id} .chip`).forEach(c=>{c.addEventListener('click',()=>{if(!multi)document.querySelectorAll(`#${id} .chip`).forEach(x=>x.classList.remove('on'));c.classList.toggle('on');});});}
+function chipVal(id){const el=document.querySelector(`#${id} .chip.on`);return el?el.dataset.v:'';}
+function setChip(id,val){document.querySelectorAll(`#${id} .chip`).forEach(c=>c.classList.toggle('on',c.dataset.v===val));}
+initChips('chips-cat',false);
 
-  // Auto-select category
-  const cat = getCatFromTypes([type]);
-  setChip('chips-cat', cat);
-
-  document.getElementById('places-dropdown').classList.remove('open');
-  toast('📍 Ort übernommen!');
-}
-
-// Close dropdown on outside click
-document.addEventListener('click', e=>{
-  if(!e.target.closest('#m-place')) document.getElementById('places-dropdown').classList.remove('open');
-});
-
-// ── CHIPS ─────────────────────────────────────────────────
-function initChips(id, multi=false){
-  document.querySelectorAll(`#${id} .chip`).forEach(c=>{
-    c.addEventListener('click',()=>{
-      if(!multi) document.querySelectorAll(`#${id} .chip`).forEach(x=>x.classList.remove('on'));
-      c.classList.toggle('on');
-    });
-  });
-}
-function chipVal(id){ const el=document.querySelector(`#${id} .chip.on`); return el?el.dataset.v:''; }
-function setChip(id,val){ document.querySelectorAll(`#${id} .chip`).forEach(c=>c.classList.toggle('on',c.dataset.v===val)); }
-initChips('chips-cat', false);
-
-// ── LOGIN ──────────────────────────────────────────────────
+// LOGIN
 function doLogin(){
-  const pin = document.getElementById('pin-input').value.trim();
-  const err = document.getElementById('login-error');
-  if(!pin){ err.textContent='Bitte PIN eingeben'; return; }
-  if(pin !== CONFIG.PIN){
-    err.textContent='Falscher PIN – versuch\'s nochmal!';
-    document.getElementById('pin-input').classList.add('error');
-    setTimeout(()=>document.getElementById('pin-input').classList.remove('error'),500);
-    return;
-  }
-  const saved = localStorage.getItem('gh_token_london');
-  if(saved){ token = saved; loginSuccess(); return; }
+  const pin=document.getElementById('pin-input').value.trim();
+  const err=document.getElementById('login-error');
+  if(!pin){err.textContent='Bitte PIN eingeben';return;}
+  if(pin!==CONFIG.PIN){err.textContent='Falscher PIN – versuch\'s nochmal!';document.getElementById('pin-input').classList.add('error');setTimeout(()=>document.getElementById('pin-input').classList.remove('error'),500);return;}
+  const saved=localStorage.getItem('gh_token_london');
+  if(saved){token=saved;loginSuccess();return;}
   showTokenInput();
 }
-
 function showTokenInput(){
-  const box = document.querySelector('.login-box');
-  box.innerHTML = `
+  document.querySelector('.login-box').innerHTML=`
     <span class="login-flag">🔑</span>
-    <div class="login-title" style="font-size:1.4rem">Einmalig: GitHub Token</div>
-    <div class="login-sub">Nur beim ersten Mal nötig – danach gespeichert</div>
-    <label class="login-label">GitHub Personal Access Token</label>
+    <div class="login-title" style="font-size:1.4rem">GitHub Token</div>
+    <div class="login-sub">Nur einmal nötig – danach gespeichert</div>
+    <label class="login-label">Personal Access Token</label>
     <input id="token-input" type="password" placeholder="ghp_xxxxxxxxxxxx"
-      style="width:100%;padding:14px 20px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:1rem;color:white;outline:none;margin-bottom:8px"
+      style="width:100%;padding:15px 18px;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:1rem;color:white;outline:none;margin-bottom:10px"
       onkeydown="if(event.key==='Enter')submitToken()">
     <button class="btn-login" onclick="submitToken()">Speichern & loslegen →</button>
     <div class="login-error" id="token-error"></div>
-    <div class="login-hint" style="margin-top:16px;line-height:1.7">
-      Token erstellen:<br>
-      GitHub → Settings → Developer settings<br>
-      → Personal access tokens → Tokens (classic)<br>
-      → Generate new token → "repo" anhaken
+    <div class="login-hint" style="margin-top:14px;line-height:1.7">
+      GitHub → Settings → Developer settings<br>→ Personal access tokens → Tokens (classic)<br>→ Generate new token → "repo" anhaken
     </div>`;
 }
+function submitToken(){const t=document.getElementById('token-input').value.trim();if(!t||!t.startsWith('ghp_')){document.getElementById('token-error').textContent='Token ungültig (ghp_ fehlt)';return;}token=t;localStorage.setItem('gh_token_london',t);loginSuccess();}
+async function loginSuccess(){document.getElementById('login-screen').classList.add('hidden');setSyncStatus('saving','Verbinde…');await loadData();renderDays();toast('👋 Willkommen!');}
+function logout(){token=null;document.getElementById('login-screen').classList.remove('hidden');document.getElementById('pin-input').value='';document.getElementById('login-error').textContent='';}
 
-function submitToken(){
-  const t = document.getElementById('token-input').value.trim();
-  if(!t || !t.startsWith('ghp_')){ document.getElementById('token-error').textContent='Token ungültig (muss mit ghp_ beginnen)'; return; }
-  token = t;
-  localStorage.setItem('gh_token_london', t);
-  loginSuccess();
-}
-
-async function loginSuccess(){
-  document.getElementById('login-screen').classList.add('hidden');
-  setSyncStatus('saving','Verbinde...');
-  await loadData();
-  renderDays();
-  toast('👋 Willkommen! Alle Planer-Änderungen werden automatisch gespeichert.');
-}
-
-function logout(){
-  token = null;
-  document.getElementById('login-screen').classList.remove('hidden');
-  document.getElementById('pin-input').value='';
-  document.getElementById('login-error').textContent='';
-}
-
-// ── GITHUB API ─────────────────────────────────────────────
-const API = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.DATA_FILE}`;
-
-// ── DEFAULT PLAN (wird nur geladen wenn data.json leer ist) ─
-const DEFAULT_PLAN = {
-  days: [
-    {
-      id:"day-fri",title:"Freitag – Ankunft & Soho-Abend",date:"",
-      note:"Ankommen, Oyster Card kaufen, erste London-Luft schnuppern.",
-      places:[
-        {id:"fri-1",name:"Heathrow → Hotel (Piccadilly Line)",address:"Heathrow Airport, London TW6",from:"",to:"",note:"Ca. 50 Min, ca. £6. Oyster Card am Automaten kaufen!",category:"🚇 Transport",lat:51.4700,lng:-0.4543},
-        {id:"fri-2",name:"Soho & Covent Garden erkunden",address:"Carnaby Street, London W1F",from:"17:00",to:"19:00",note:"Carnaby Street, Seven Dials, Covent Garden – einfach laufen.",category:"🏛️ Sehenswürdigkeit",lat:51.5137,lng:-0.1410},
-        {id:"fri-3",name:"Abendessen: Bubala Soho",address:"15 Poland St, London W1F 8PR",from:"19:00",to:"21:00",note:"100% vegetarisch – Reservierung nötig! ⭐ 4.6",category:"🍽️ Restaurant",lat:51.5142,lng:-0.1346},
-        {id:"fri-4",name:"Pub-Abend: The Harp",address:"47 Chandos Pl, London WC2N 4HS",from:"21:00",to:"",note:"Uriges Craft-Pub, hervorragende Real Ales. Immer an der Bar bestellen!",category:"🍺 Pub",lat:51.5088,lng:-0.1249}
-      ]
-    },
-    {
-      id:"day-sat",title:"Samstag – Big London Day",date:"",
-      note:"Borough Market · Tower · Southbank · Sky Garden – volles Programm!",
-      places:[
-        {id:"sat-1",name:"Borough Market Frühstück",address:"8 Southwark St, London SE1 1TL",from:"09:00",to:"11:00",note:"Frische Pastries, Kaffee, vegane Stände. Mallow Restaurant direkt daneben ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5055,lng:-0.0910},
-        {id:"sat-2",name:"Tower of London",address:"Tower Hill, London EC3N 4AB",from:"11:00",to:"13:30",note:"Online vorbuchen! Ca. £30 p.P. Beefeater-Tour unbedingt mitmachen.",category:"🏛️ Sehenswürdigkeit",lat:51.5081,lng:-0.0759},
-        {id:"sat-3",name:"Tower Bridge & Southbank",address:"Tower Bridge Rd, London SE1 2UP",from:"13:30",to:"14:30",note:"Zu Fuß über die Tower Bridge, Themse entlang Richtung Shakespeare's Globe.",category:"🏛️ Sehenswürdigkeit",lat:51.5055,lng:-0.0754},
-        {id:"sat-4",name:"Sky Garden",address:"20 Fenchurch St, London EC3M 8AF",from:"15:00",to:"16:30",note:"Eintritt GRATIS – mind. 3 Wochen vorher buchen auf skygarden.london!",category:"🌿 Park",lat:51.5111,lng:-0.0834},
-        {id:"sat-5",name:"Abendessen: Mallow Borough Market",address:"Cathedral St, London SE1 9AL",from:"19:00",to:"",note:"Veganes Fine Dining. Mushroom Ravioli mit Trüffel. Reservieren! ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5060,lng:-0.0912},
-        {id:"sat-6",name:"Pub: Craft Beer Co. Covent Garden",address:"168 High Holborn, London WC1V 7AA",from:"21:00",to:"",note:"10+ Cask-Ales gleichzeitig. Riesige Auswahl. ⭐ 4.5",category:"🍺 Pub",lat:51.5172,lng:-0.1189}
-      ]
-    },
-    {
-      id:"day-sun",title:"Sonntag – Royal & Entspannt",date:"",
-      note:"Buckingham · Hyde Park · Westminster · National Gallery · Pub",
-      places:[
-        {id:"sun-1",name:"Frühstück: Mildreds Covent Garden",address:"79 St Martin's Ln, London WC2N 4AA",from:"09:00",to:"10:30",note:"London-Legende seit 35 Jahren. White-Choc-Tiramisu bestellen! ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5104,lng:-0.1267},
-        {id:"sun-2",name:"Buckingham Palace & St. James's Park",address:"Westminster, London SW1A 1AA",from:"11:00",to:"12:30",note:"Wachablösung Sonntags ca. 10 Uhr – früh da sein! Enten & Pelikane im Park.",category:"🏛️ Sehenswürdigkeit",lat:51.5014,lng:-0.1419},
-        {id:"sun-3",name:"Westminster & Big Ben",address:"Westminster Bridge, London SW1A 2JH",from:"13:00",to:"14:30",note:"Westminster Bridge, Big Ben, Houses of Parliament – London Eye von der Brücke kostenlos.",category:"🏛️ Sehenswürdigkeit",lat:51.5007,lng:-0.1246},
-        {id:"sun-4",name:"Covent Garden & National Gallery",address:"Trafalgar Square, London WC2N 5DN",from:"15:00",to:"17:00",note:"National Gallery – Van Gogh, Rembrandt, Turner. Eintritt frei!",category:"🎭 Kultur",lat:51.5089,lng:-0.1283},
-        {id:"sun-5",name:"Pub: Old Shades Whitehall",address:"37 Whitehall, London SW1A 2BX",from:"19:00",to:"",note:"Eines der ältesten Pubs Londons. Shepherd's Pie, echte Ales. ⭐ 4.7",category:"🍺 Pub",lat:51.5046,lng:-0.1259}
-      ]
-    },
-    {
-      id:"day-mon",title:"Montag – Letzter Bissen & Heimflug",date:"",
-      note:"Koffer lassen, Notting Hill, Govinda's – dann Heathrow.",
-      places:[
-        {id:"mon-1",name:"Hotel Check-out",address:"Leicester Square, London WC2H",from:"09:00",to:"10:00",note:"Koffer abgeben (oft bis 18 Uhr möglich). Keine Hektik!",category:"🏨 Hotel",lat:51.5113,lng:-0.1282},
-        {id:"mon-2",name:"Portobello Road & Notting Hill",address:"Portobello Rd, London W11",from:"10:00",to:"12:30",note:"Vintage, Antiquitäten, bunte Pastell-Häuser. Schönster Spaziergang Londons.",category:"🛍️ Shopping",lat:51.5172,lng:-0.2042},
-        {id:"mon-3",name:"Mittagessen: Govinda's Soho",address:"9 Soho St, London W1D 3DL",from:"13:00",to:"14:30",note:"Vegane indische Thali ca. £11 – riesige Portionen. ⭐ 4.8",category:"🍽️ Restaurant",lat:51.5155,lng:-0.1318},
-        {id:"mon-4",name:"Heathrow Abflug (Piccadilly Line)",address:"Heathrow Airport, London TW6",from:"15:00",to:"",note:"Ca. 50 Min Fahrt, ca. £6. 2,5 Stunden vor Abflug am Flughafen!",category:"🚇 Transport",lat:51.4700,lng:-0.4543}
-      ]
-    }
-  ],
-  profiles: []
-};
-
+// GITHUB API
+const API=`https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.DATA_FILE}`;
 async function loadData(){
-  try {
-    const r = await fetch(API,{headers:{Authorization:`token ${token}`,Accept:'application/vnd.github.v3+json'}});
-    if(r.status===404){
-      // Datei existiert noch nicht → Default-Plan einspielen und hochladen
-      state = JSON.parse(JSON.stringify(DEFAULT_PLAN));
-      await pushData();
-      setSyncStatus('ok','Bereit');
-      return;
-    }
-    if(!r.ok) throw new Error(r.status);
-    const d = await r.json();
-    fileSha = d.sha;
-    const loaded = JSON.parse(atob(d.content.replace(/\n/g,'')));
-    // Nur übernehmen wenn Struktur vorhanden
-    state.profiles = loaded.profiles || [];
-    // Tage: falls leer → Default-Plan laden, sonst vorhandene Daten behalten
-    if(!loaded.days || loaded.days.length === 0){
-      state.days = JSON.parse(JSON.stringify(DEFAULT_PLAN.days));
-      toast('📅 Reiseplan mit Standarddaten geladen.');
-    } else {
-      state.days = loaded.days;
-    }
+  try{
+    const r=await fetch(API,{headers:{Authorization:`token ${token}`,Accept:'application/vnd.github.v3+json'}});
+    if(r.status===404){state=JSON.parse(JSON.stringify(DEFAULT_PLAN));await pushData();setSyncStatus('ok','Bereit');return;}
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();fileSha=d.sha;
+    const loaded=JSON.parse(atob(d.content.replace(/\n/g,'')));
+    state.profiles=loaded.profiles||[];
+    state.days=(!loaded.days||!loaded.days.length)?JSON.parse(JSON.stringify(DEFAULT_PLAN.days)):loaded.days;
     setSyncStatus('ok','Geladen');
-  } catch(e){
-    setSyncStatus('err','Fehler beim Laden');
-    toast('⚠️ Verbindung zu GitHub fehlgeschlagen. Token prüfen!');
-  }
+  }catch(e){setSyncStatus('err','Ladefehler');toast('⚠️ GitHub-Verbindung fehlgeschlagen!');}
 }
-
 async function pushData(){
-  try {
-    setSyncStatus('saving','Speichert...');
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state,null,2))));
-    const body = {message:'Trip update',content,...(fileSha?{sha:fileSha}:{})};
-    const r = await fetch(API,{
-      method:'PUT',
-      headers:{Authorization:`token ${token}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify(body)
-    });
-    if(!r.ok) throw new Error(r.status);
-    const d = await r.json();
-    fileSha = d.content.sha;
-    setSyncStatus('ok','Gespeichert ✓');
-    setTimeout(()=>setSyncStatus('ok','Bereit'),2500);
-  } catch(e){
-    setSyncStatus('err','Speichern fehlgeschlagen');
-    toast('⚠️ Speichern fehlgeschlagen – Verbindung prüfen!');
-  }
+  try{
+    setSyncStatus('saving','Speichert…');
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(state,null,2))));
+    const body={message:'Trip update',content,...(fileSha?{sha:fileSha}:{})};
+    const r=await fetch(API,{method:'PUT',headers:{Authorization:`token ${token}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();fileSha=d.content.sha;
+    setSyncStatus('ok','Gespeichert ✓');setTimeout(()=>setSyncStatus('ok','Bereit'),2500);
+  }catch(e){setSyncStatus('err','Speicherfehler');toast('⚠️ Speichern fehlgeschlagen!');}
 }
+function scheduleSave(){clearTimeout(saveTimer);setSyncStatus('saving','Speichert…');saveTimer=setTimeout(pushData,1400);}
+function setSyncStatus(s,t){document.getElementById('sync-dot').className='sync-dot '+s;document.getElementById('sync-text').textContent=t;}
 
-function scheduleSave(){ clearTimeout(saveTimer); setSyncStatus('saving','Speichert...'); saveTimer=setTimeout(pushData,1200); }
-function setSyncStatus(s,text){ document.getElementById('sync-dot').className='sync-dot '+s; document.getElementById('sync-text').textContent=text; }
-
-// ── TABS ───────────────────────────────────────────────────
-function showPage(id, btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+// VIEWS
+function switchView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  if(id==='mapview') setTimeout(initOvMap,80);
+  if(id==='mapview')setTimeout(initOvMap,80);
+}
+function showSubDay(id,btn){
+  document.querySelectorAll('.sub-day').forEach(d=>d.style.display='none');
+  document.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sd-'+id).style.display='block';
+  btn.classList.add('active');
 }
 
-// ── MODAL ──────────────────────────────────────────────────
-function openModal(id){ document.getElementById(id).classList.add('open'); }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); });
-});
+// MODALS
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');document.body.style.overflow='';}}));
 
-// ── TOAST ──────────────────────────────────────────────────
-function toast(msg,dur=3000){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),dur);
-}
+// TOAST
+function toast(msg,dur=2800){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),dur);}
 
-// ── UTILS ──────────────────────────────────────────────────
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escAttr(s){ return String(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
-function fmtDate(s){ if(!s)return''; const [y,m,d]=s.split('-'); const mo=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez']; return `${+d}. ${mo[+m-1]} ${y}`; }
+// UTILS
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){return String(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+function fmtDate(s){if(!s)return'';const[y,m,d]=s.split('-');const mo=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];return`${+d}. ${mo[+m-1]} ${y}`;}
 const COLORS=['#E8192C','#0A2463','#F5A623','#1B9A4E','#0096A0','#7B2FBE','#E84393'];
 const CAT_EM={'🏛️ Sehenswürdigkeit':'🏛️','🍽️ Restaurant':'🍽️','🍺 Pub':'🍺','🛍️ Shopping':'🛍️','🌿 Park':'🌿','🎭 Kultur':'🎭','🏨 Hotel':'🏨','🚇 Transport':'🚇'};
-function ce(cat){ return CAT_EM[cat]||'📍'; }
+function ce(cat){return CAT_EM[cat]||'📍';}
 
-// ── DAYS ───────────────────────────────────────────────────
+// DAYS
 let eDayId=null;
-function openDayModal(id=null){
-  eDayId=id;
-  document.getElementById('m-day-h').textContent=id?'Tag bearbeiten':'Tag hinzufügen';
-  if(id){ const d=state.days.find(x=>x.id===id); document.getElementById('f-dt').value=d.title; document.getElementById('f-dd').value=d.date||''; document.getElementById('f-dn').value=d.note||''; }
-  else{ document.getElementById('f-dt').value=''; document.getElementById('f-dd').value=''; document.getElementById('f-dn').value=''; }
-  openModal('m-day'); setTimeout(()=>document.getElementById('f-dt').focus(),100);
-}
-function saveDay(){
-  const title=document.getElementById('f-dt').value.trim();
-  if(!title){ toast('⚠️ Titel eingeben'); return; }
-  if(eDayId){ const d=state.days.find(x=>x.id===eDayId); d.title=title; d.date=document.getElementById('f-dd').value; d.note=document.getElementById('f-dn').value.trim(); }
-  else state.days.push({id:uid(),title,date:document.getElementById('f-dd').value,note:document.getElementById('f-dn').value.trim(),places:[]});
-  closeModal('m-day'); renderDays(); scheduleSave(); toast(eDayId?'✏️ Tag aktualisiert':'📅 Tag hinzugefügt');
-}
-function deleteDay(id){ if(!confirm('Tag wirklich löschen?'))return; state.days=state.days.filter(d=>d.id!==id); renderDays(); scheduleSave(); toast('🗑️ Tag gelöscht'); }
+function openDayModal(id=null){eDayId=id;document.getElementById('m-day-h').textContent=id?'Tag bearbeiten':'Tag hinzufügen';if(id){const d=state.days.find(x=>x.id===id);document.getElementById('f-dt').value=d.title;document.getElementById('f-dd').value=d.date||'';document.getElementById('f-dn').value=d.note||'';}else{document.getElementById('f-dt').value='';document.getElementById('f-dd').value='';document.getElementById('f-dn').value='';}openModal('m-day');setTimeout(()=>document.getElementById('f-dt').focus(),220);}
+function saveDay(){const title=document.getElementById('f-dt').value.trim();if(!title){toast('⚠️ Titel eingeben');return;}if(eDayId){const d=state.days.find(x=>x.id===eDayId);d.title=title;d.date=document.getElementById('f-dd').value;d.note=document.getElementById('f-dn').value.trim();}else state.days.push({id:uid(),title,date:document.getElementById('f-dd').value,note:document.getElementById('f-dn').value.trim(),places:[]});closeModal('m-day');renderDays();scheduleSave();toast(eDayId?'✏️ Tag aktualisiert':'📅 Tag hinzugefügt');}
+function deleteDay(id){if(!confirm('Tag wirklich löschen?'))return;state.days=state.days.filter(d=>d.id!==id);renderDays();scheduleSave();toast('🗑️ Tag gelöscht');}
 
-// ── PLACES ─────────────────────────────────────────────────
-let ePlaceId=null, curDay=null;
-function openPlaceModal(dayId, placeId=null){
-  curDay=dayId; ePlaceId=placeId;
+// PLACES
+let ePlaceId=null,curDay=null;
+function openPlaceModal(dayId,placeId=null){
+  curDay=dayId;ePlaceId=placeId;
   document.getElementById('m-place-h').textContent=placeId?'Aktivität bearbeiten':'Aktivität hinzufügen';
-  document.getElementById('f-search').value='';
-  document.getElementById('places-dropdown').classList.remove('open');
-  currentPlaceLat=51.5074; currentPlaceLng=-0.1278;
-  if(placeId){
-    const p=state.days.find(d=>d.id===dayId).places.find(p=>p.id===placeId);
-    document.getElementById('f-pn').value=p.name;
-    document.getElementById('f-pa').value=p.address||'';
-    document.getElementById('f-pf').value=p.from||'';
-    document.getElementById('f-pt').value=p.to||'';
-    document.getElementById('f-pnote').value=p.note||'';
-    setChip('chips-cat',p.category||'🏛️ Sehenswürdigkeit');
-    currentPlaceLat=p.lat||51.5074; currentPlaceLng=p.lng||-0.1278;
-    document.getElementById('f-search').value=p.name;
-  } else {
-    document.getElementById('f-pn').value='';
-    document.getElementById('f-pa').value='';
-    document.getElementById('f-pf').value='';
-    document.getElementById('f-pt').value='';
-    document.getElementById('f-pnote').value='';
-    setChip('chips-cat','🏛️ Sehenswürdigkeit');
-  }
-  openModal('m-place'); setTimeout(()=>document.getElementById('f-search').focus(),100);
+  document.getElementById('ac-drop').classList.remove('open');
+  acSelected=false;currentLat=51.5074;currentLng=-0.1278;
+  if(placeId){const p=state.days.find(d=>d.id===dayId).places.find(p=>p.id===placeId);document.getElementById('f-pn').value=p.name;document.getElementById('f-pa').value=p.address||'';document.getElementById('f-pf').value=p.from||'';document.getElementById('f-pt').value=p.to||'';document.getElementById('f-pnote').value=p.note||'';setChip('chips-cat',p.category||'🏛️ Sehenswürdigkeit');currentLat=p.lat||51.5074;currentLng=p.lng||-0.1278;acSelected=true;}
+  else{document.getElementById('f-pn').value='';document.getElementById('f-pa').value='';document.getElementById('f-pf').value='';document.getElementById('f-pt').value='';document.getElementById('f-pnote').value='';setChip('chips-cat','🏛️ Sehenswürdigkeit');}
+  openModal('m-place');setTimeout(()=>document.getElementById('f-pn').focus(),220);
 }
-
 async function savePlace(){
   const name=document.getElementById('f-pn').value.trim();
-  if(!name){ toast('⚠️ Name eingeben'); return; }
+  if(!name){toast('⚠️ Name eingeben');return;}
   const address=document.getElementById('f-pa').value.trim();
-  const btn=document.getElementById('btn-sp'); btn.textContent='⏳'; btn.disabled=true;
-
-  // If no place was selected from dropdown, geocode manually
-  let lat=currentPlaceLat, lng=currentPlaceLng;
-  if(lat===51.5074 && lng===-0.1278 && address){
-    try{
-      const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address+', London, UK')}&format=json&limit=1`);
-      const d=await r.json(); if(d[0]){lat=+d[0].lat;lng=+d[0].lon;}
-    }catch(e){}
-  }
-
-  btn.textContent='Speichern'; btn.disabled=false;
+  const btn=document.getElementById('btn-sp');btn.textContent='⏳';btn.disabled=true;
+  let lat=currentLat,lng=currentLng;
+  if(!acSelected&&address){try{const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address+', London')}&format=json&limit=1`);const d=await r.json();if(d[0]){lat=+d[0].lat;lng=+d[0].lon;}}catch(e){}}
+  btn.textContent='Speichern';btn.disabled=false;
   const data={name,address,from:document.getElementById('f-pf').value,to:document.getElementById('f-pt').value,note:document.getElementById('f-pnote').value.trim(),category:chipVal('chips-cat'),lat,lng};
   const day=state.days.find(d=>d.id===curDay);
-  if(ePlaceId){ Object.assign(day.places.find(p=>p.id===ePlaceId),data); }
-  else day.places.push({id:uid(),...data});
-  closeModal('m-place'); renderDays(); scheduleSave();
-  if(dayMaps[curDay]) refreshDayMap(curDay);
+  if(ePlaceId){Object.assign(day.places.find(p=>p.id===ePlaceId),data);}else day.places.push({id:uid(),...data});
+  closeModal('m-place');renderDays();scheduleSave();if(dayMaps[curDay])refreshDayMap(curDay);
   toast(ePlaceId?'✏️ Aktivität aktualisiert':'📍 Aktivität hinzugefügt');
 }
+function deletePlace(dayId,placeId){state.days.find(d=>d.id===dayId).places=state.days.find(d=>d.id===dayId).places.filter(p=>p.id!==placeId);renderDays();scheduleSave();toast('🗑️ Aktivität gelöscht');}
 
-function deletePlace(dayId,placeId){
-  state.days.find(d=>d.id===dayId).places=state.days.find(d=>d.id===dayId).places.filter(p=>p.id!==placeId);
-  renderDays(); scheduleSave(); toast('🗑️ Aktivität gelöscht');
+// EXPORT KML (Google Maps)
+function exportKML(){
+  const all=[];
+  state.days.forEach(day=>day.places.forEach(p=>{if(p.lat&&p.lng)all.push({...p,dayTitle:day.title});}));
+  if(!all.length){toast('⚠️ Keine Orte mit Koordinaten.');return;}
+  const pm=all.map(p=>`  <Placemark>
+    <name>${xmlEsc(p.name)}</name>
+    <description>${xmlEsc([p.address,p.from?(p.from+(p.to?' – '+p.to:'')):'',p.note,p.dayTitle].filter(Boolean).join(' | '))}</description>
+    <Point><coordinates>${p.lng},${p.lat},0</coordinates></Point>
+  </Placemark>`).join('\n');
+  const kml=`<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n  <name>London Trip 🇬🇧</name>\n  <description>Reiseplan für Alex, Steffi &amp; Pinon</description>\n${pm}\n</Document>\n</kml>`;
+  download('london-trip.kml',kml,'application/vnd.google-earth.kml+xml');
+  toast('✅ KML heruntergeladen!');
 }
 
-// ── RENDER DAYS ────────────────────────────────────────────
+// EXPORT CSV
+function exportCSV(){
+  const rows=[['Name','Adresse','Kategorie','Von','Bis','Notiz','Lat','Lng','Tag']];
+  state.days.forEach(day=>day.places.forEach(p=>rows.push([p.name,p.address||'',p.category||'',p.from||'',p.to||'',p.note||'',p.lat||'',p.lng||'',day.title])));
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  download('london-trip.csv','\uFEFF'+csv,'text/csv;charset=utf-8');
+  toast('✅ CSV heruntergeladen!');
+}
+
+function download(filename,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=filename;a.click();URL.revokeObjectURL(a.href);}
+function xmlEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');}
+
+// OPEN DAY IN GOOGLE MAPS (directions)
+function openInGoogleMaps(dayId){
+  const day=state.days.find(d=>d.id===dayId);
+  if(!day||!day.places.length){toast('⚠️ Keine Orte in diesem Tag.');return;}
+  const pts=day.places.filter(p=>p.lat&&p.lng);
+  if(!pts.length){toast('⚠️ Keine Koordinaten vorhanden.');return;}
+  if(pts.length===1){window.open(`https://www.google.com/maps/search/?api=1&query=${pts[0].lat},${pts[0].lng}`,'_blank');return;}
+  const origin=`${pts[0].lat},${pts[0].lng}`;
+  const dest=`${pts[pts.length-1].lat},${pts[pts.length-1].lng}`;
+  const wps=pts.slice(1,-1).map(p=>`${p.lat},${p.lng}`).join('|');
+  window.open(`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}${wps?'&waypoints='+wps:''}&travelmode=walking`,'_blank');
+  toast('🗺️ Google Maps wird geöffnet…');
+}
+
+// RENDER DAYS
 function renderDays(){
   const el=document.getElementById('days-list');
-  if(!state.days.length){ el.innerHTML=`<div class="empty"><div class="ic">📅</div><p>Noch keine eigenen Tage.<br>Fügt euren ersten Tag hinzu!</p></div>`; return; }
+  if(!state.days.length){el.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:12px">📅</div><p>Noch keine Tage.<br>Tippe auf "+ Tag" um loszulegen.</p></div>`;return;}
   el.innerHTML=state.days.map((day,i)=>{
     const col=COLORS[i%COLORS.length];
-    return `<div class="day-card" id="dc-${day.id}" draggable="true"
-      ondragstart="dStart(event,'${day.id}')" ondragover="dOver(event)" ondrop="dDrop(event,'${day.id}')" ondragleave="dLeave(event)" ondragend="dEnd()">
+    return`<div class="day-card" id="dc-${day.id}" draggable="true" ondragstart="dStart(event,'${day.id}')" ondragover="dOver(event)" ondrop="dDrop(event,'${day.id}')" ondragleave="dLeave(event)" ondragend="dEnd()">
       <div class="day-head">
-        <span class="drag-handle" title="Verschieben">⠿</span>
+        <span class="drag-handle">⠿</span>
         <div class="day-num" style="background:${col}">${i+1}</div>
         <div class="day-title-wrap">
           <div class="day-title-txt">${esc(day.title)}</div>
@@ -963,85 +783,78 @@ function renderDays(){
       </div>
       <div class="day-body">
         ${day.note?`<div class="day-note">${esc(day.note)}</div>`:''}
-        <div class="places">
-          ${day.places.map(p=>`
-            <div class="place-row">
-              <div class="place-icon">${ce(p.category)}</div>
-              <div class="place-info">
-                <div class="place-name">${esc(p.name)}</div>
-                <div class="place-meta">
-                  ${p.address?`<span>📍 ${esc(p.address)}</span>`:''}
-                  ${p.from?`<span class="time-badge">🕐 ${p.from}${p.to?' – '+p.to:''}</span>`:''}
-                  ${p.note?`<span>💬 ${esc(p.note)}</span>`:''}
-                </div>
+        <div class="places">${day.places.map(p=>`
+          <div class="place-row">
+            <div class="place-icon">${ce(p.category)}</div>
+            <div class="place-info">
+              <div class="place-name">${esc(p.name)}</div>
+              <div class="place-meta">
+                ${p.address?`<span>📍 ${esc(p.address)}</span>`:''}
+                ${p.from?`<span class="time-badge">🕐 ${p.from}${p.to?' – '+p.to:''}</span>`:''}
+                ${p.note?`<span>💬 ${esc(p.note)}</span>`:''}
               </div>
-              <div class="place-acts">
-                <button class="btn-icon" onclick="openPlaceModal('${day.id}','${p.id}')">✏️</button>
-                <button class="btn-icon del" onclick="deletePlace('${day.id}','${p.id}')">🗑️</button>
-              </div>
-            </div>`).join('')}
+            </div>
+            <div class="place-acts">
+              <button class="btn-icon" onclick="openPlaceModal('${day.id}','${p.id}')">✏️</button>
+              <button class="btn-icon del" onclick="deletePlace('${day.id}','${p.id}')">🗑️</button>
+            </div>
+          </div>`).join('')}
         </div>
         <button class="add-place-btn" onclick="openPlaceModal('${day.id}')">+ Aktivität hinzufügen</button>
-        <button class="map-toggle" onclick="toggleDayMap('${day.id}')">🗺️ Karte für diesen Tag</button>
-        <div class="day-map-wrap" id="dw-${day.id}">
-          <div class="day-map" id="dm-${day.id}"></div>
+        <div class="day-actions">
+          <button class="day-action-btn gmaps" onclick="openInGoogleMaps('${day.id}')">🗺️ In Google Maps öffnen</button>
+          <button class="day-action-btn" onclick="toggleDayMap('${day.id}')">📍 Karte</button>
         </div>
+        <div class="day-map-wrap" id="dw-${day.id}"><div class="day-map" id="dm-${day.id}"></div></div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── DAY MAPS ───────────────────────────────────────────────
-function toggleDayMap(id){ const w=document.getElementById('dw-'+id); w.classList.toggle('open'); if(w.classList.contains('open')) setTimeout(()=>initDayMap(id),50); }
-function initDayMap(id){ if(dayMaps[id]){refreshDayMap(id);return;} const m=L.map('dm-'+id,{scrollWheelZoom:false}).setView([51.505,-0.09],13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m); dayMaps[id]=m; refreshDayMap(id); }
+// MAPS
+function toggleDayMap(id){const w=document.getElementById('dw-'+id);w.classList.toggle('open');if(w.classList.contains('open'))setTimeout(()=>initDayMap(id),50);}
+function initDayMap(id){if(dayMaps[id]){refreshDayMap(id);return;}const m=L.map('dm-'+id,{scrollWheelZoom:false,tap:true}).setView([51.505,-0.09],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(m);dayMaps[id]=m;refreshDayMap(id);}
 function refreshDayMap(id){
-  const m=dayMaps[id]; if(!m)return;
+  const m=dayMaps[id];if(!m)return;
   m.eachLayer(l=>{if(l instanceof L.Marker||l instanceof L.Polyline)m.removeLayer(l);});
-  const day=state.days.find(d=>d.id===id); if(!day)return;
+  const day=state.days.find(d=>d.id===id);if(!day)return;
   const bounds=[],coords=[];
-  day.places.forEach((p,i)=>{
-    if(!p.lat)return; bounds.push([p.lat,p.lng]); coords.push([p.lat,p.lng]);
-    const icon=L.divIcon({html:`<div style="background:#0A2463;color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13],className:''});
+  day.places.forEach((p,i)=>{if(!p.lat)return;bounds.push([p.lat,p.lng]);coords.push([p.lat,p.lng]);
+    const icon=L.divIcon({html:`<div style="background:#0A2463;color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3)">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13],className:''});
     L.marker([p.lat,p.lng],{icon}).addTo(m).bindPopup(`<strong>${p.name}</strong>${p.address?`<br><small>${p.address}</small>`:''}${p.from?`<br>🕐 ${p.from}${p.to?' – '+p.to:''}`:''}`,{maxWidth:200});
   });
-  if(coords.length>1) L.polyline(coords,{color:'#0A2463',weight:2.5,opacity:0.65,dashArray:'6,5'}).addTo(m);
-  if(bounds.length) m.fitBounds(bounds,{padding:[24,24]});
+  if(coords.length>1)L.polyline(coords,{color:'#0A2463',weight:2.5,opacity:.6,dashArray:'5,5'}).addTo(m);
+  if(bounds.length)m.fitBounds(bounds,{padding:[20,20]});
   m.invalidateSize();
 }
-
 function initOvMap(){
-  if(!ovMapState.init){ ovMapState.map=L.map('ov-map').setView([51.505,-0.09],12); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(ovMapState.map); ovMapState.init=true; }
+  if(!ovMapState.init){ovMapState.map=L.map('ov-map',{tap:true}).setView([51.505,-0.09],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(ovMapState.map);ovMapState.init=true;}
   const m=ovMapState.map;
   m.eachLayer(l=>{if(l instanceof L.Marker||l instanceof L.Polyline)m.removeLayer(l);});
-  const legend=document.getElementById('map-legend'); legend.innerHTML='';
-  const all=[];
+  const legend=document.getElementById('map-legend');legend.innerHTML='';const all=[];
   state.days.forEach((day,di)=>{
-    const col=COLORS[di%COLORS.length]; const coords=[];
-    day.places.forEach(p=>{
-      if(!p.lat)return; all.push([p.lat,p.lng]); coords.push([p.lat,p.lng]);
-      const icon=L.divIcon({html:`<div style="background:${col};color:white;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:12px">${ce(p.category)}</span></div>`,iconSize:[28,28],iconAnchor:[14,28],className:''});
-      L.marker([p.lat,p.lng],{icon}).addTo(m).bindPopup(`<strong>${p.name}</strong>${p.address?`<br><small>${p.address}</small>`:''}${day.date?`<br>📅 ${fmtDate(day.date)}`:''}`,{maxWidth:220});
+    const col=COLORS[di%COLORS.length];const coords=[];
+    day.places.forEach(p=>{if(!p.lat)return;all.push([p.lat,p.lng]);coords.push([p.lat,p.lng]);
+      const icon=L.divIcon({html:`<div style="background:${col};color:white;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:13px">${ce(p.category)}</span></div>`,iconSize:[28,28],iconAnchor:[14,28],className:''});
+      L.marker([p.lat,p.lng],{icon}).addTo(m).bindPopup(`<strong>${p.name}</strong>${p.address?`<br><small>${p.address}</small>`:''}`,{maxWidth:200});
     });
-    if(coords.length>1) L.polyline(coords,{color:col,weight:2.5,opacity:0.65,dashArray:'7,5'}).addTo(m);
-    if(day.places.length) legend.innerHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${col}"></div>Tag ${di+1}: ${esc(day.title)}</div>`;
+    if(coords.length>1)L.polyline(coords,{color:col,weight:2.5,opacity:.6,dashArray:'6,5'}).addTo(m);
+    if(day.places.length)legend.innerHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${col}"></div>${esc(day.title)}</div>`;
   });
-  if(all.length) m.fitBounds(all,{padding:[28,28]});
+  if(all.length)m.fitBounds(all,{padding:[22,22]});
   m.invalidateSize();
 }
 
-// ── DRAG & DROP ────────────────────────────────────────────
+// DRAG & DROP
 let dragId=null;
-function dStart(e,id){ dragId=id; setTimeout(()=>document.getElementById('dc-'+id)?.classList.add('dragging'),0); }
-function dEnd(){ document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('dragging','drag-over')); }
-function dOver(e){ e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-function dLeave(e){ e.currentTarget.classList.remove('drag-over'); }
-function dDrop(e,tid){ e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(dragId===tid)return; const fi=state.days.findIndex(d=>d.id===dragId),ti=state.days.findIndex(d=>d.id===tid); const [it]=state.days.splice(fi,1); state.days.splice(ti,0,it); renderDays(); scheduleSave(); toast('↕️ Reihenfolge geändert'); }
+function dStart(e,id){dragId=id;setTimeout(()=>document.getElementById('dc-'+id)?.classList.add('dragging'),0);}
+function dEnd(){document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('dragging','drag-over'));}
+function dOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dLeave(e){e.currentTarget.classList.remove('drag-over');}
+function dDrop(e,tid){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(dragId===tid)return;const fi=state.days.findIndex(d=>d.id===dragId),ti=state.days.findIndex(d=>d.id===tid);const[it]=state.days.splice(fi,1);state.days.splice(ti,0,it);renderDays();scheduleSave();toast('↕️ Reihenfolge geändert');}
 
-// ── INIT ───────────────────────────────────────────────────
-window.addEventListener('load',()=>{
-  const saved=localStorage.getItem('gh_token_london');
-  if(saved){ token=saved; }
-});
+// INIT
+window.addEventListener('load',()=>{const saved=localStorage.getItem('gh_token_london');if(saved)token=saved;});
 </script>
 </body>
 </html>
