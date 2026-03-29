@@ -101,6 +101,17 @@
           "category": "🏛️ Sehenswürdigkeit",
           "lat": 51.51127,
           "lng": -0.0835396
+        },
+        {
+          "id": "mnbn1yk7l5j",
+          "name": "Mallow",
+          "address": "Mallow, 1, Cathedral Street",
+          "from": "19:00",
+          "to": "21:00",
+          "note": "",
+          "category": "🍽️ Restaurant",
+          "lat": 51.5062423,
+          "lng": -0.0903798
         }
       ]
     }
