@@ -330,64 +330,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);ove
   <p class="footer-note">Made with ❤️ für <strong>Alex, Steffi & Pinon</strong></p>
 </div></div>
 
-<!-- STATIC DAYS -->
+<!-- DYNAMIC PLAN (rendered from state.days) -->
 <div class="view" id="view-days-static">
-  <div class="sub-nav">
-    <button class="sub-btn active" onclick="showSubDay('fri',this)">Fr ✈️</button>
-    <button class="sub-btn" onclick="showSubDay('sat',this)">Sa 🏰</button>
-    <button class="sub-btn" onclick="showSubDay('sun',this)">So 👑</button>
-    <button class="sub-btn" onclick="showSubDay('mon',this)">Mo 🛫</button>
-    <button class="sub-btn" onclick="showSubDay('food',this)">🍽️ Essen</button>
-  </div>
+  <div class="sub-nav" id="plan-sub-nav"></div>
   <div class="content">
-  <div id="sd-fri" class="sub-day">
-    <div class="section-header"><div><h2>Freitag ✈️</h2><p>Ankunft & erste London-Luft schnuppern.</p></div></div>
-    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Nachmittag</div><h4>✈️ Check-in & Orientierung</h4><p class="card-desc">Heathrow → Piccadilly Line, ca. 50 Min, ca. £6. <strong>Oyster Card</strong> am Automaten kaufen!</p><div class="card-tags"><span class="tag tag-tip">Oyster Card kaufen</span></div></div></div>
-    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">17:00 – 19:00</div><h4>🚶 Soho & Covent Garden</h4><p class="card-desc">Carnaby Street, Seven Dials, Covent Garden – einfach laufen und staunen.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00 – 21:00</div><h4>🌿 Bubala Soho</h4><p class="card-desc">100% vegetarische Middle-Eastern Sharing Plates. <strong>Reservierung nötig!</strong> ⭐ 4.6 · 15 Poland St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span><span class="tag tag-tip">Reservieren!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00</div><h4>🍺 The Harp Pub</h4><p class="card-desc">Uriges Craft-Pub in Covent Garden, hervorragende Real Ales. 47 Chandos Pl</p><div class="card-tags"><span class="tag tag-beer">Real Ale</span><span class="tag tag-tip">An der Bar bestellen!</span></div></div></div>
-    <div class="tip-box tip-box-navy" data-icon="💡"><h4>Freitag-Tipp</h4><p>Freitagabend in Soho ist voll, laut und lebendig. <strong>Das ist London auf Anhieb.</strong></p></div>
-  </div>
-  <div id="sd-sat" class="sub-day" style="display:none">
-    <div class="section-header"><div><h2>Samstag 🏰</h2><p>Der große London-Tag. Volles Programm.</p></div></div>
-    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 11:00</div><h4>🥕 Borough Market</h4><p class="card-desc">Londons berühmtester Markt. Pastries, Kaffee, vegane Stände. <strong>Mallow Restaurant</strong> direkt daneben. ⭐ 4.8</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-Paradies</span><span class="tag tag-free">Markt kostenlos</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">11:00 – 13:30</div><h4>🏰 Tower of London</h4><p class="card-desc"><strong>Online vorbuchen!</strong> Ca. £30 p.P. Beefeater-Rundgang mitmachen. Tower Hill, EC3N 4AB</p><div class="card-tags"><span class="tag tag-paid">ca. £30</span><span class="tag tag-tip">Beefeater-Tour!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">13:30 – 14:30</div><h4>🌉 Tower Bridge & Southbank</h4><p class="card-desc">Zu Fuß rüber, Themse entlang, Shakespeare's Globe auf dem Weg.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-    <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">15:00 – 16:30</div><h4>🌿 Sky Garden</h4><p class="card-desc">360°-Panorama, Eintritt GRATIS! <strong>Mind. 3 Wochen vorher buchen</strong> auf skygarden.london</p><div class="card-tags"><span class="tag tag-free">Gratis!</span><span class="tag tag-tip">3 Wochen vorher!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">19:00</div><h4>🍄 Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining, Mushroom Ravioli mit Trüffel. ⭐ 4.8 – <strong>reservieren!</strong></p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-paid">££</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 21:00</div><h4>🍺 Craft Beer Co.</h4><p class="card-desc">10+ Cask-Ales gleichzeitig. 168 High Holborn ⭐ 4.5</p><div class="card-tags"><span class="tag tag-beer">Craft Beer</span></div></div></div>
-  </div>
-  <div id="sd-sun" class="sub-day" style="display:none">
-    <div class="section-header"><div><h2>Sonntag 👑</h2><p>Royal vibes, grüne Parks und Pubs.</p></div></div>
-    <div class="card"><div class="card-stripe s-pink"></div><div class="card-inner"><div class="card-time t-pink">09:00 – 10:30</div><h4>☕ Mildreds Frühstück</h4><p class="card-desc">London-Legende seit 35 Jahren. White-Choc-Tiramisu bestellen! ⭐ 4.8 · 79 St Martin's Ln</p><div class="card-tags"><span class="tag tag-veg">🌿 100% Veg</span><span class="tag tag-tip">Tiramisu!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">11:00 – 12:30</div><h4>👑 Buckingham Palace</h4><p class="card-desc">Wachablösung Sonntags ca. 10 Uhr – <strong>früh da sein!</strong> Dann St. James's Park.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span><span class="tag tag-tip">Früh ankommen!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">13:00 – 14:30</div><h4>🏛️ Westminster & Big Ben</h4><p class="card-desc">Westminster Bridge, Big Ben, Houses of Parliament. London Eye von der Brücke kostenlos genießen.</p><div class="card-tags"><span class="tag tag-free">Von außen gratis</span></div></div></div>
-    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><div class="card-time t-teal">15:00 – 17:00</div><h4>🎨 National Gallery</h4><p class="card-desc">Van Gogh, Rembrandt, Turner – Eintritt frei! Dann Covent Garden für Souvenirs.</p><div class="card-tags"><span class="tag tag-free">Eintritt frei!</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><div class="card-time t-red">Ab 19:00</div><h4>🍺 Old Shades Whitehall</h4><p class="card-desc">Ältestes Pub Londons, Shepherd's Pie, echte Ales. 37 Whitehall ⭐ 4.7</p><div class="card-tags"><span class="tag tag-beer">Traditional</span><span class="tag tag-veg">🌿 Veg. Optionen</span></div></div></div>
-    <div class="tip-box tip-box-teal" data-icon="☀️"><h4>Sonntags-Bonus</h4><p>Weniger Touristen, Parks voller Locals. <strong>Das ist auch London.</strong></p></div>
-  </div>
-  <div id="sd-mon" class="sub-day" style="display:none">
-    <div class="section-header"><div><h2>Montag 🛫</h2><p>Letzter Tag – noch einen draufsetzen.</p></div></div>
-    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><div class="card-time t-gold">09:00 – 10:00</div><h4>🥐 Check-out</h4><p class="card-desc">Koffer abgeben (oft bis 18 Uhr möglich). <strong>Keine Hektik!</strong></p><div class="card-tags"><span class="tag tag-tip">Koffer lassen</span></div></div></div>
-    <div class="card"><div class="card-stripe s-purple"></div><div class="card-inner"><div class="card-time t-purple">10:00 – 12:30</div><h4>🛍️ Portobello Road, Notting Hill</h4><p class="card-desc">Vintage, bunte Pastell-Häuser. Schönster Spaziergang Londons.</p><div class="card-tags"><span class="tag tag-free">Kostenlos</span></div></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><div class="card-time t-green">13:00 – 14:30</div><h4>🌿 Govinda's Soho</h4><p class="card-desc">Vegane indische Thali ca. £11, riesige Portionen. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget</span></div></div></div>
-    <div class="card"><div class="card-stripe s-navy"></div><div class="card-inner"><div class="card-time t-navy">Ab 15:00</div><h4>✈️ Richtung Heathrow</h4><p class="card-desc">Piccadilly Line, ca. 50 Min, ca. £6. <strong>2,5 Stunden vor Abflug!</strong></p><div class="card-tags"><span class="tag tag-tip">2,5h Puffer!</span></div></div></div>
-    <div class="tip-box tip-box-green" data-icon="🛫"><h4>Letzter Tipp</h4><p>Heathrow ist groß – zum Gate 20 Min einplanen. <strong>Lieber früher.</strong> 🍫</p></div>
-  </div>
-  <div id="sd-food" class="sub-day" style="display:none">
-    <div class="section-header"><div><h2>Essen & Trinken 🍽️</h2><p>Alle Spots der Crew.</p></div></div>
-    <div class="day-label"><div class="day-dot" style="background:var(--green)">🌿</div><div class="day-label-text"><h3>Vegetarische Highlights</h3><span>Alle veg-freundlich</span></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🧆 Bubala Soho</h4><p class="card-desc">Middle Eastern, 100% veg. <strong>Reservieren!</strong> ⭐ 4.6 · 15 Poland St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🍄 Mallow Borough Market</h4><p class="card-desc">Veganes Fine Dining. <strong>Reservieren!</strong> ⭐ 4.8 · Cathedral St SE1</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-paid">££</span></div></div></div>
-    <div class="card"><div class="card-stripe s-green"></div><div class="card-inner"><h4>🥞 Mildreds</h4><p class="card-desc">London-Legende seit 35 Jahren. ⭐ 4.8–4.9 · Covent Garden & Victoria</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegetarisch</span><span class="tag tag-paid">££</span></div></div></div>
-    <div class="card"><div class="card-stripe s-teal"></div><div class="card-inner"><h4>🙏 Govinda's Soho</h4><p class="card-desc">Vegane Thali ca. £10–11. ⭐ 4.8 · 9 Soho St</p><div class="card-tags"><span class="tag tag-veg">🌿 Vegan</span><span class="tag tag-free">£ Budget</span></div></div></div>
-    <div class="card"><div class="card-stripe s-gold"></div><div class="card-inner"><h4>🥕 Borough Market</h4><p class="card-desc">Sa ab 9 Uhr. Hunderte Stände. ⭐ 4.6</p><div class="card-tags"><span class="tag tag-veg">🌿 Veg-freundlich</span><span class="tag tag-free">Eintritt frei</span></div></div></div>
-    <div class="day-label"><div class="day-dot" style="background:var(--red)">🍺</div><div class="day-label-text"><h3>Pubs & Bier</h3><span>The British Experience™</span></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 The Harp</h4><p class="card-desc">Beste Real Ales. ⭐ 4.6 · 47 Chandos Pl WC2N 4HS</p><div class="card-tags"><span class="tag tag-beer">Real Ale</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Craft Beer Co.</h4><p class="card-desc">10+ Cask-Ales. ⭐ 4.5 · 168 High Holborn</p><div class="card-tags"><span class="tag tag-beer">Craft Beer</span></div></div></div>
-    <div class="card"><div class="card-stripe s-red"></div><div class="card-inner"><h4>🍺 Old Shades</h4><p class="card-desc">Shepherd's Pie. ⭐ 4.7 · 37 Whitehall</p><div class="card-tags"><span class="tag tag-beer">Traditional</span></div></div></div>
-    <div class="tip-box tip-box-red" data-icon="🍺"><h4>Pub-Survival-Guide</h4><p>🍺 Immer an der Bar bestellen!<br>💳 Kartenzahlung überall.<br>💧 „Tap water" = kostenlos fragen.<br>🪙 Trinkgeld optional.</p></div>
-  </div>
+  <div id="plan-days-container"></div>
   </div>
 </div>
 
@@ -664,13 +611,6 @@ function switchView(id,btn){
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='mapview')setTimeout(initOvMap,80);
 }
-function showSubDay(id,btn){
-  document.querySelectorAll('.sub-day').forEach(d=>d.style.display='none');
-  document.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('sd-'+id).style.display='block';
-  btn.classList.add('active');
-}
-
 // MODALS
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
@@ -762,8 +702,61 @@ function openInGoogleMaps(dayId){
   toast('🗺️ Google Maps wird geöffnet…');
 }
 
+// RENDER PLAN (read-only view, synced from state.days)
+function renderPlan(){
+  const nav=document.getElementById('plan-sub-nav');
+  const container=document.getElementById('plan-days-container');
+  if(!state.days.length){
+    nav.innerHTML='';
+    container.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:12px">📅</div><p>Noch keine Tage im Planer.<br>Füge Tage im ✏️ Planer-Tab hinzu.</p></div>`;
+    return;
+  }
+  // Build sub-nav tabs
+  nav.innerHTML=state.days.map((day,i)=>{
+    const label=day.title.split('–')[0].trim().split(' ').slice(0,2).join(' ');
+    return`<button class="sub-btn${i===0?' active':''}" onclick="showPlanDay('pd-${day.id}',this)">${esc(label)}</button>`;
+  }).join('');
+  // Build day panels
+  const STRIPE_COLS=['s-navy','s-red','s-gold','s-green','s-teal','s-purple','s-pink'];
+  const TEXT_COLS=['t-navy','t-red','t-gold','t-green','t-teal','t-purple','t-pink'];
+  container.innerHTML=state.days.map((day,i)=>{
+    const sc=STRIPE_COLS[i%STRIPE_COLS.length];
+    const tc=TEXT_COLS[i%TEXT_COLS.length];
+    const col=COLORS[i%COLORS.length];
+    const places=day.places.map(p=>`
+      <div class="card">
+        <div class="card-stripe ${sc}"></div>
+        <div class="card-inner">
+          ${p.from?`<div class="card-time ${tc}">${p.from}${p.to?' – '+p.to:''}</div>`:''}
+          <h4>${ce(p.category)} ${esc(p.name)}</h4>
+          ${p.address||p.note?`<p class="card-desc">${p.address?`📍 ${esc(p.address)}`:''}${p.address&&p.note?'<br>':''}${p.note?`💬 ${esc(p.note)}`:''}</p>`:''}
+        </div>
+      </div>`).join('');
+    return`<div id="pd-${day.id}" class="sub-day" style="${i===0?'':'display:none'}">
+      <div class="section-header">
+        <div>
+          <h2>${esc(day.title)}</h2>
+          ${day.note?`<p>${esc(day.note)}</p>`:''}
+        </div>
+      </div>
+      ${places||`<div style="color:var(--muted);font-size:.85rem;padding:8px 0">Noch keine Aktivitäten für diesen Tag.</div>`}
+      <div style="margin-top:10px">
+        <button class="day-action-btn gmaps" style="width:100%;justify-content:center" onclick="openInGoogleMaps('${day.id}')">🗺️ In Google Maps öffnen</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showPlanDay(id,btn){
+  document.querySelectorAll('#plan-days-container .sub-day').forEach(d=>d.style.display='none');
+  document.querySelectorAll('#plan-sub-nav .sub-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).style.display='block';
+  btn.classList.add('active');
+}
+
 // RENDER DAYS
 function renderDays(){
+  renderPlan();
   const el=document.getElementById('days-list');
   if(!state.days.length){el.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:12px">📅</div><p>Noch keine Tage.<br>Tippe auf "+ Tag" um loszulegen.</p></div>`;return;}
   el.innerHTML=state.days.map((day,i)=>{
