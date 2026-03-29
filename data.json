@@ -175,6 +175,17 @@
           "category": "🏛️ Sehenswürdigkeit",
           "lat": 51.5007042,
           "lng": -0.1245721
+        },
+        {
+          "id": "mnbn61oxw4f",
+          "name": "National Gallery",
+          "address": "Nationalgalerie, St Martin's Place, East Marylebone",
+          "from": "15:00",
+          "to": "17:00",
+          "note": "Convent Garden und National Gallery",
+          "category": "🎭 Kultur",
+          "lat": 51.508881,
+          "lng": -0.1283826
         }
       ]
     }
