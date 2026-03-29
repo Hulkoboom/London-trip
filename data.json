@@ -186,6 +186,17 @@
           "category": "🎭 Kultur",
           "lat": 51.508881,
           "lng": -0.1283826
+        },
+        {
+          "id": "mnbn6hz8db3",
+          "name": "The Old Shades",
+          "address": "The Old Shades, 37, Whitehall",
+          "from": "19:00",
+          "to": "21:00",
+          "note": "",
+          "category": "🍺 Pub",
+          "lat": 51.5064759,
+          "lng": -0.1268178
         }
       ]
     }
