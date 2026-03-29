@@ -240,25 +240,6 @@
           "lng": -0.4543
         }
       ]
-    },
-    {
-      "id": "mnbkj2bvnsf",
-      "title": "Erster Tag (Eigener Eintrag)",
-      "date": "",
-      "note": "",
-      "places": [
-        {
-          "id": "mnbkldsfnea",
-          "name": "Tower of london",
-          "address": "London EC3N 4AB",
-          "from": "07:01",
-          "to": "12:41",
-          "note": "",
-          "category": "ðï¸ SehenswÃ¼rdigkeit",
-          "lat": 51.508217,
-          "lng": -0.0761879
-        }
-      ]
     }
   ],
   "profiles": [
