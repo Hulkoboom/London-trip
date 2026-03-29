@@ -5,7 +5,19 @@
       "title": "Ankunft",
       "date": "2026-12-01",
       "note": "",
-      "places": []
+      "places": [
+        {
+          "id": "mnbmti4tuh8",
+          "name": "Check-in",
+          "address": "",
+          "from": "",
+          "to": "",
+          "note": "",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.5074,
+          "lng": -0.1278
+        }
+      ]
     }
   ],
   "profiles": [
