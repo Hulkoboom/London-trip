@@ -584,7 +584,7 @@ async function loadData(){
     const d=await r.json();fileSha=d.sha;
     const loaded=JSON.parse(atob(d.content.replace(/\n/g,'')));
     state.profiles=loaded.profiles||[];
-    state.days=(!loaded.days||!loaded.days.length)?JSON.parse(JSON.stringify(DEFAULT_PLAN.days)):loaded.days;
+    state.days=Array.isArray(loaded.days)?loaded.days:JSON.parse(JSON.stringify(DEFAULT_PLAN.days));
     setSyncStatus('ok','Geladen');
   }catch(e){setSyncStatus('err','Ladefehler');toast('⚠️ GitHub-Verbindung fehlgeschlagen!');}
 }
