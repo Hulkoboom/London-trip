@@ -142,6 +142,17 @@
           "category": "🍽️ Restaurant",
           "lat": 51.5025996,
           "lng": -0.0139977
+        },
+        {
+          "id": "mnbn45xk2d8",
+          "name": "Buckingham Palace",
+          "address": "Buckingham-Palast, Buckingham Gate, Victoria",
+          "from": "11:00",
+          "to": "12:30",
+          "note": "",
+          "category": "🏛️ Sehenswürdigkeit",
+          "lat": 51.5008349,
+          "lng": -0.1430045
         }
       ]
     }
